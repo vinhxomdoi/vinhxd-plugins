@@ -1,0 +1,66 @@
+/* Khách hàng XD */
+.exd-tm{position:relative;display:flex;flex-direction:column;align-items:var(--exd-jc,flex-start);gap:16px;height:100%;margin:0;border-radius:var(--exd-radius);transition:transform .35s var(--exd-ease),box-shadow .35s}
+.exd-tm__q{display:block;font-size:38px;line-height:1;color:var(--exd-primary)}
+.exd-tm__q svg{display:block}
+.exd-tm__stars{--exd-star:#f5a524;--exd-star-off:#e2e8f0;font-size:16px;line-height:1;letter-spacing:.12em}
+.exd-tm__stars::before{content:"★★★★★";background:linear-gradient(90deg,var(--exd-star) var(--p,100%),var(--exd-star-off) var(--p,100%));-webkit-background-clip:text;background-clip:text;color:transparent}
+.exd-tm__text{flex:1 1 auto;margin:0;padding:0;border:0;background:none;quotes:none;font-style:normal;color:#1e293b;font-size:1.04rem;line-height:1.75}
+.exd-tm__text::before,.exd-tm__text::after{content:none}
+.exd-tm__text p{margin:0 0 .8em}
+.exd-tm__text p:last-child{margin-bottom:0}
+.exd-tm__author{display:flex;align-items:center;gap:14px;text-align:left}
+img.exd-tm__avatar{flex:none;width:52px;height:52px;border-radius:50%;object-fit:cover}
+.exd-tm__meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.exd-tm__name{color:var(--exd-heading);font-style:normal;font-weight:700;font-size:1rem;text-decoration:none;transition:color .2s}
+a.exd-tm__name:hover{color:var(--exd-primary)}
+.exd-tm__role{color:var(--exd-muted);font-size:.88rem}
+
+/* Thẻ */
+:where(.exd-s-card) .exd-tm{padding:30px;background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-card) .exd-tm__q{position:absolute;top:24px;right:26px;font-size:44px;opacity:.14}
+:where(.exd-s-card) .exd-tm__author{padding-top:18px;border-top:1px solid var(--exd-border);width:100%}
+:where(.exd-s-card) .exd-tm:hover{transform:translateY(-4px);box-shadow:var(--exd-shadow-h)}
+
+/* Bong bóng */
+:where(.exd-s-bubble) .exd-tm__q{display:none}
+:where(.exd-s-bubble) .exd-tm__text{position:relative;width:100%;padding:24px 26px;border-radius:var(--exd-radius);background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-bubble) .exd-tm__text::after{content:"";position:absolute;left:34px;bottom:-9px;width:18px;height:18px;background:inherit;border:inherit;border-width:0 1px 1px 0;transform:rotate(45deg)}
+:where(.exd-s-bubble) .exd-tm__author{padding-left:20px;margin-top:6px}
+:where(.exd-s-bubble) .exd-tm__stars{order:3;padding-left:20px}
+
+/* Tối giản */
+:where(.exd-s-minimal) .exd-tm{--exd-jc:center;text-align:center;gap:20px}
+:where(.exd-s-minimal) .exd-tm__q{font-size:52px;opacity:.25}
+:where(.exd-s-minimal) .exd-tm__text{max-width:42em;font-size:clamp(1.12rem,1rem + .6vw,1.45rem);font-weight:500;line-height:1.6;color:var(--exd-heading);letter-spacing:-.01em}
+:where(.exd-s-minimal) .exd-tm__author{flex-direction:column;gap:10px;text-align:center}
+:where(.exd-s-minimal) img.exd-tm__avatar{width:60px;height:60px}
+
+/* Ảnh lớn bên trái */
+:where(.exd-s-side) .exd-tm{display:grid;grid-template-columns:min(150px,30%) minmax(0,1fr);grid-template-areas:"img q" "img stars" "img text" "img meta";align-content:start;column-gap:clamp(16px,4%,30px);row-gap:12px;padding:28px;background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-side) .exd-tm__author{display:contents}
+:where(.exd-s-side) img.exd-tm__avatar{grid-area:img;width:100%;height:auto;aspect-ratio:1/1;border-radius:calc(var(--exd-radius) - 2px)}
+:where(.exd-s-side) .exd-tm__q{grid-area:q;font-size:30px}
+:where(.exd-s-side) .exd-tm__stars{grid-area:stars}
+:where(.exd-s-side) .exd-tm__text{grid-area:text}
+:where(.exd-s-side) .exd-tm__meta{grid-area:meta;padding-top:4px}
+
+/* Dấu ngoặc lớn nền màu */
+:where(.exd-s-quote) .exd-tm{padding:34px;overflow:hidden;background:var(--exd-primary);color:#fff;box-shadow:0 20px 40px -20px var(--exd-primary)}
+:where(.exd-s-quote) .exd-tm__q{position:absolute;right:-6px;bottom:-20px;font-size:140px;color:#fff;opacity:.14}
+:where(.exd-s-quote) .exd-tm__text,:where(.exd-s-quote) .exd-tm__name{color:#fff}
+:where(.exd-s-quote) .exd-tm__role{color:rgba(255,255,255,.75)}
+:where(.exd-s-quote) .exd-tm__stars{--exd-star:#fff;--exd-star-off:rgba(255,255,255,.3)}
+:where(.exd-s-quote) img.exd-tm__avatar{box-shadow:0 0 0 3px rgba(255,255,255,.35)}
+
+/* Nền tối */
+:where(.exd-s-dark) .exd-tm{padding:30px;background:#0f172a;box-shadow:0 20px 40px -24px rgba(2,6,23,.6)}
+:where(.exd-s-dark) .exd-tm__text,:where(.exd-s-dark) .exd-tm__name{color:#f1f5f9}
+:where(.exd-s-dark) .exd-tm__role{color:#94a3b8}
+:where(.exd-s-dark) .exd-tm__stars{--exd-star-off:#334155}
+:where(.exd-s-dark) .exd-tm__q{opacity:.9}
+
+@media (max-width:767px){
+	:where(.exd-s-side) .exd-tm{grid-template-columns:64px minmax(0,1fr);grid-template-areas:"q q" "stars stars" "text text" "img meta";align-items:center}
+	:where(.exd-s-side) img.exd-tm__avatar{width:64px;height:64px}
+	:where(.exd-s-card,.exd-s-dark,.exd-s-side,.exd-s-quote) .exd-tm{padding:24px}
+}

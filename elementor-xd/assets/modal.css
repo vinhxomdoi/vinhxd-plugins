@@ -1,0 +1,40 @@
+/* Elementor XD – cửa sổ nổi dùng chung */
+html.exd-lock{overflow:hidden}
+.exd-modal{--exd-modal-w:720px;width:min(var(--exd-modal-w),calc(100vw - 32px));max-width:none;max-height:calc(100dvh - 32px);margin:auto;padding:0;border:0;border-radius:18px;background:transparent;color:#334155;overflow:visible}
+.exd-modal:not([open]){display:none}
+.exd-modal::backdrop{background:rgba(2,6,23,.62);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.exd-modal[open]{animation:exd-modal-in .32s cubic-bezier(.2,.7,.2,1)}
+.exd-modal[open]::backdrop{animation:exd-fade .3s ease}
+.exd-modal__box{position:relative;max-height:calc(100dvh - 32px);overflow:auto;overscroll-behavior:contain;border-radius:inherit;background:#fff;box-shadow:0 30px 80px -20px rgba(2,6,23,.5)}
+.exd-modal__body{padding:clamp(22px,4vw,40px)}
+.exd-modal__body>:last-child{margin-bottom:0}
+.exd-modal__close{position:absolute;top:10px;right:10px;z-index:5;display:grid;place-items:center;width:40px;height:40px;padding:0;border:0;border-radius:50%;background:rgba(15,23,42,.06);color:#0f172a;cursor:pointer;transition:background-color .2s,transform .25s}
+.exd-modal__close:hover,.exd-modal__close:focus-visible{background:rgba(15,23,42,.12);transform:rotate(90deg)}
+
+/* Ảnh, video */
+.exd-modal--media{--exd-modal-w:1100px}
+.exd-modal--media .exd-modal__box{overflow:hidden;background:#000;border-radius:14px}
+.exd-modal--media .exd-modal__body{padding:0}
+.exd-modal--media .exd-modal__close{background:rgba(0,0,0,.55);color:#fff}
+.exd-modal--media .exd-modal__close:hover,.exd-modal--media .exd-modal__close:focus-visible{background:rgba(0,0,0,.85)}
+.exd-modal__video{position:relative;aspect-ratio:16/9;background:#000}
+.exd-modal__video iframe,.exd-modal__video video{position:absolute;inset:0;width:100%;height:100%;border:0}
+img.exd-modal__img{display:block;width:100%;height:auto;max-height:calc(100dvh - 32px);object-fit:contain}
+
+/* Trượt bên phải */
+.exd-modal.exd-modal--side{--exd-modal-w:440px;height:100dvh;max-height:100dvh;margin:0 0 0 auto;border-radius:0}
+.exd-modal--side .exd-modal__box{height:100%;max-height:100dvh;border-radius:0}
+.exd-modal--side[open]{animation:exd-slide-in .35s cubic-bezier(.2,.7,.2,1)}
+/* Toàn màn hình */
+.exd-modal.exd-modal--full{width:100vw;height:100dvh;max-height:100dvh;margin:0;border-radius:0}
+.exd-modal--full .exd-modal__box{height:100%;max-height:100dvh;border-radius:0}
+/* Thanh dưới (mobile-friendly) */
+.exd-modal.exd-modal--bottom{width:min(var(--exd-modal-w),100vw);margin:auto auto 0;border-radius:20px 20px 0 0}
+.exd-modal--bottom .exd-modal__box{border-radius:inherit}
+.exd-modal--bottom[open]{animation:exd-slide-up .35s cubic-bezier(.2,.7,.2,1)}
+
+@keyframes exd-modal-in{from{opacity:0;transform:translateY(16px) scale(.98)}}
+@keyframes exd-slide-in{from{transform:translateX(100%)}}
+@keyframes exd-slide-up{from{transform:translateY(100%)}}
+@keyframes exd-fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.exd-modal[open],.exd-modal[open]::backdrop{animation:none}}

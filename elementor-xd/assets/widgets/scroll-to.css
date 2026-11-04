@@ -1,0 +1,36 @@
+/* Scroll To XD */
+html:has(.exd-sto,.exd-sto-btn){scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html:has(.exd-sto,.exd-sto-btn){scroll-behavior:auto}}
+.exd-sto{display:block;height:0;overflow:hidden;scroll-margin-top:80px;--exd-sto-c:rgba(15,23,42,.25);--exd-sto-on:var(--exd-primary)}
+.exd-sto__hint{padding:6px 12px;border:1px dashed #94a3b8;border-radius:8px;color:#64748b;font:500 12px/1.4 system-ui,sans-serif}
+
+/* Nút cuộn tới */
+.exd-sto-wrap{display:flex;justify-content:center}
+.exd-sto-btn{display:inline-flex;flex-direction:column;align-items:center;gap:10px;color:var(--exd-heading);font-size:16px;text-decoration:none;transition:color .2s}
+.exd-sto-btn:hover{color:var(--exd-primary)}
+.exd-sto-btn__label{font-size:.75em;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.exd-sto-btn__ic{position:relative;display:block}
+.exd-sto-btn__ic i{position:absolute;left:50%}
+/* Con chuột */
+:where(.exd-s-mouse) .exd-sto-btn__ic{width:1.6em;height:2.5em;border:2px solid currentColor;border-radius:1em}
+:where(.exd-s-mouse) .exd-sto-btn__ic i{top:.45em;width:3px;height:.5em;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:exd-sto-wheel 1.8s ease-in-out infinite}
+/* Mũi tên tròn */
+:where(.exd-s-circle) .exd-sto-btn__ic{width:2.8em;height:2.8em;border:1.5px solid currentColor;border-radius:50%}
+:where(.exd-s-circle) .exd-sto-btn__ic i{top:50%;width:.6em;height:.6em;margin:-.45em 0 0 -.3em;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg);animation:exd-sto-bob 1.8s ease-in-out infinite}
+/* Vạch chạy */
+:where(.exd-s-line) .exd-sto-btn__ic{width:2px;height:3.4em;overflow:hidden;background:color-mix(in srgb,currentColor 25%,transparent)}
+:where(.exd-s-line) .exd-sto-btn__ic i{top:0;left:0;width:2px;height:40%;background:currentColor;animation:exd-sto-run 1.8s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes exd-sto-wheel{0%{opacity:0;transform:translateY(-3px)}30%{opacity:1}100%{opacity:0;transform:translateY(.7em)}}
+@keyframes exd-sto-bob{0%,100%{transform:translateY(-2px) rotate(45deg)}50%{transform:translateY(3px) rotate(45deg)}}
+@keyframes exd-sto-run{0%{transform:translateY(-100%)}100%{transform:translateY(260%)}}
+
+/* Thanh chấm (do JS tạo, gắn vào body) */
+.exd-sto-nav{position:fixed;top:50%;right:18px;z-index:90;display:flex;flex-direction:column;gap:4px;margin:0;padding:8px 6px;list-style:none;border-radius:999px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 20px -8px rgba(2,6,23,.25);transform:translateY(-50%)}
+.exd-sto-nav--left{right:auto;left:18px}
+.exd-sto-nav a{position:relative;display:grid;place-items:center;width:20px;height:20px;text-decoration:none}
+.exd-sto-nav a::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--exd-sto-c);transition:transform .3s cubic-bezier(.2,.7,.2,1),background-color .25s}
+.exd-sto-nav a.is-active::before{background:var(--exd-sto-on);transform:scale(1.5)}
+.exd-sto-nav span{position:absolute;right:calc(100% + 12px);top:50%;padding:5px 10px;border-radius:6px;background:#0f172a;color:#fff;font:500 12px/1.3 system-ui,sans-serif;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(6px,-50%);transition:opacity .2s,transform .2s}
+.exd-sto-nav--left span{right:auto;left:calc(100% + 12px);transform:translate(-6px,-50%)}
+.exd-sto-nav a:hover span,.exd-sto-nav a:focus-visible span{opacity:1;transform:translate(0,-50%)}
+@media (max-width:767px){.exd-sto-nav{right:8px}.exd-sto-nav--left{left:8px}.exd-sto-nav span{display:none}}

@@ -1,0 +1,59 @@
+/* Hộp ảnh XD */
+.exd-imb{position:relative;display:flex;flex-direction:column;height:100%;border-radius:var(--exd-radius);transition:transform .4s var(--exd-ease),box-shadow .4s,background-color .3s}
+.exd-imb__media{aspect-ratio:4/3;border-radius:var(--exd-radius);isolation:isolate}
+.exd-imb__media::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(2,6,23,.78),rgba(2,6,23,.15) 55%,rgba(2,6,23,0));opacity:0;transition:opacity .4s}
+.exd-imb__body{position:relative;z-index:2;padding-top:18px;transition:transform .45s var(--exd-ease),background-color .3s}
+.exd-imb__eyebrow{display:block;margin-bottom:6px;color:var(--exd-primary);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.exd-imb__title{margin:0 0 8px;color:var(--exd-heading);font-size:1.2rem;font-weight:700;line-height:1.35;transition:color .25s}
+.exd-imb__text{color:var(--exd-text);font-size:.96rem;line-height:1.65}
+.exd-imb__text>:last-child{margin-bottom:0}
+.exd-imb__more{display:inline-flex;align-items:center;gap:.4em;margin-top:12px;color:var(--exd-primary);font-weight:600;font-size:.92rem;transition:gap .25s var(--exd-ease)}
+.exd-imb:hover .exd-imb__more{gap:.7em}
+.exd-imb:hover .exd-imb__title{color:var(--exd-primary)}
+
+/* Thẻ */
+:where(.exd-s-card) .exd-imb{overflow:hidden;background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-card) .exd-imb__media{border-radius:0}
+:where(.exd-s-card) .exd-imb__body{flex:1 1 auto;padding:20px 24px 24px}
+:where(.exd-s-card) .exd-imb:hover{transform:translateY(-6px);box-shadow:var(--exd-shadow-h)}
+
+/* Chữ trên ảnh & hiện khi hover */
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb{overflow:hidden;color:#fff}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__media{aspect-ratio:4/5;border-radius:0;height:100%}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__media::before{opacity:1}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__body{position:absolute;left:0;right:0;bottom:0;padding:26px}
+:where(.exd-s-overlay,.exd-s-reveal,.exd-s-float) .exd-imb:hover .exd-imb__title{color:inherit}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__title{color:#fff}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__text{color:rgba(255,255,255,.85)}
+:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__eyebrow,:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__more{color:#fff}
+:where(.exd-s-reveal,.exd-s-float) .exd-imb__extra{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s var(--exd-ease),opacity .35s}
+:where(.exd-s-reveal,.exd-s-float) .exd-imb__extra>*{min-height:0}
+:where(.exd-s-reveal,.exd-s-float) .exd-imb__extra{overflow:hidden}
+:where(.exd-s-reveal,.exd-s-float) .exd-imb:hover .exd-imb__extra,:where(.exd-s-reveal,.exd-s-float) .exd-imb:focus-within .exd-imb__extra{grid-template-rows:1fr;opacity:1}
+:where(.exd-s-reveal) .exd-imb__media::before{background:linear-gradient(to top,rgba(2,6,23,.85),rgba(2,6,23,.1) 60%)}
+:where(.exd-s-reveal) .exd-imb:hover .exd-imb__media::before{background-color:rgba(2,6,23,.35)}
+
+/* Hộp chữ đè lên ảnh */
+:where(.exd-s-push) .exd-imb__body{margin:-64px 18px 0;padding:22px 24px;border-radius:calc(var(--exd-radius) - 2px);background:var(--exd-surface);box-shadow:var(--exd-shadow)}
+:where(.exd-s-push) .exd-imb:hover .exd-imb__body{transform:translateY(-6px);box-shadow:var(--exd-shadow-h)}
+
+/* Hộp chữ nổi trong ảnh */
+:where(.exd-s-float) .exd-imb{overflow:hidden}
+:where(.exd-s-float) .exd-imb__media{aspect-ratio:4/5;height:100%}
+:where(.exd-s-float) .exd-imb__body{position:absolute;left:14px;right:14px;bottom:14px;padding:16px 20px;border-radius:calc(var(--exd-radius) - 4px);background:rgba(255,255,255,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+:where(.exd-s-float) .exd-imb__title{margin-bottom:0}
+:where(.exd-s-float) .exd-imb:hover .exd-imb__title{margin-bottom:6px}
+
+/* Ảnh bên trái */
+:where(.exd-s-side) .exd-imb{display:grid;grid-template-columns:minmax(0,42%) minmax(0,1fr);gap:24px;align-items:center}
+:where(.exd-s-side) .exd-imb__media{aspect-ratio:1/1}
+:where(.exd-s-side) .exd-imb__body{padding:0}
+
+@media (max-width:767px){
+	:where(.exd-s-side) .exd-imb{grid-template-columns:minmax(0,38%) minmax(0,1fr);gap:16px}
+	:where(.exd-s-reveal,.exd-s-float) .exd-imb__extra{grid-template-rows:1fr;opacity:1}
+	:where(.exd-s-overlay,.exd-s-reveal) .exd-imb__body{padding:20px}
+}
+@media (hover:none){
+	:where(.exd-s-reveal,.exd-s-float) .exd-imb__extra{grid-template-rows:1fr;opacity:1}
+}

@@ -1,0 +1,30 @@
+/* Nút video XD */
+.exd-vb{--exd-vb:68px;--exd-vb-ring:var(--exd-primary);position:relative;display:flex;align-items:center}
+.exd-vb__btn{display:inline-flex;align-items:center;gap:16px;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.exd-vb__icon{position:relative;display:grid;place-items:center;flex:none;width:var(--exd-vb);height:var(--exd-vb);border:2px solid transparent;border-radius:50%;font-size:calc(var(--exd-vb) * .36);transition:background-color .25s,color .25s,border-color .25s,transform .3s var(--exd-ease)}
+.exd-vb__icon svg{position:relative;z-index:1;margin-left:.12em}
+.exd-vb__btn:hover .exd-vb__icon,.exd-vb--cover:hover .exd-vb__icon{transform:scale(1.07)}
+.exd-vb__label{color:var(--exd-heading);font-weight:600;font-size:1rem;line-height:1.35;transition:color .2s}
+.exd-vb:hover .exd-vb__label{color:var(--exd-primary)}
+
+/* Sóng lan: chỉ transform + opacity */
+:where(.exd-pulse-yes) .exd-vb__icon::before,:where(.exd-pulse-yes) .exd-vb__icon::after{content:"";position:absolute;inset:-2px;border-radius:50%;background:var(--exd-vb-ring);opacity:0;animation:exd-vb-pulse 2.4s ease-out infinite;pointer-events:none}
+:where(.exd-pulse-yes) .exd-vb__icon::after{animation-delay:1.2s}
+@keyframes exd-vb-pulse{0%{opacity:.45;transform:scale(1)}100%{opacity:0;transform:scale(1.9)}}
+
+/* Kiểu */
+:where(.exd-s-solid) .exd-vb__icon{background:var(--exd-primary);color:#fff;box-shadow:0 12px 30px -10px var(--exd-primary)}
+:where(.exd-s-light) .exd-vb__icon{--exd-vb-ring:#fff;background:#fff;color:var(--exd-primary);box-shadow:0 12px 30px -10px rgba(2,6,23,.35)}
+:where(.exd-s-outline) .exd-vb__icon{border-color:var(--exd-primary);color:var(--exd-primary);background:transparent}
+:where(.exd-s-outline) .exd-vb:hover .exd-vb__icon{background:var(--exd-primary);color:#fff}
+:where(.exd-s-glass) .exd-vb__icon{--exd-vb-ring:rgba(255,255,255,.8);background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.45);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+:where(.exd-s-glass) .exd-vb__label{color:#fff}
+
+/* Có ảnh bìa */
+.exd-vb--cover{display:block;overflow:hidden;border-radius:var(--exd-radius);cursor:pointer;isolation:isolate}
+.exd-vb__cover{aspect-ratio:16/9}
+.exd-vb__cover::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(2,6,23,.55),rgba(2,6,23,.1));transition:opacity .35s}
+.exd-vb--cover:hover .exd-vb__cover::before{opacity:.7}
+.exd-vb--cover .exd-vb__btn{position:absolute;inset:0;z-index:2;flex-direction:column;justify-content:center;gap:14px;text-align:center}
+.exd-vb--cover .exd-vb__label{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.exd-vb__btn:focus-visible .exd-vb__icon{outline:3px solid color-mix(in srgb,var(--exd-primary) 55%,#fff);outline-offset:4px}

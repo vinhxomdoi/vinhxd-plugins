@@ -1,0 +1,11 @@
+/* Cửa sổ nổi XD (khung cửa sổ ở assets/modal.css) */
+.exd-lb__trigger .e-font-icon-svg,.exd-lb__trigger svg{width:1em;height:1em;fill:currentColor}
+.exd-lb__link{display:inline-flex;align-items:center;gap:.45em;color:var(--exd-primary);font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px}
+.exd-lb__link:hover{text-decoration-color:transparent}
+.exd-lb__img{display:inline-block;max-width:100%;padding:0;border:0;border-radius:var(--exd-radius);background:none;cursor:zoom-in}
+.exd-lb__img img{display:block}
+.exd-lb__hint{padding:10px 14px;border:1px dashed #94a3b8;border-radius:8px;color:#64748b;font:500 13px/1.4 system-ui,sans-serif}
+.exd-lb__content>:first-child{margin-top:0}
+.exd-lb__content>:last-child{margin-bottom:0}
+.exd-lb__content h2,.exd-lb__content h3{color:#0f172a;line-height:1.25}
+.exd-lb__content h2{font-size:1.6rem;margin:0 0 .5em}.exd-lb__content h3{font-size:1.35rem;margin:0 0 .5em}

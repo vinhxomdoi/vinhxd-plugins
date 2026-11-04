@@ -1,0 +1,46 @@
+/* Icon Box XD */
+.exd-ib{--exd-icon:34px;--exd-icon-box:auto;--exd-icon-gap:18px;position:relative;display:flex;flex-direction:column;align-items:var(--exd-jc,flex-start);gap:var(--exd-icon-gap);height:100%;border-radius:var(--exd-radius);transition:transform .35s var(--exd-ease),box-shadow .35s,background-color .3s,border-color .3s}
+.exd-ib__body{min-width:0;flex:1 1 auto;width:100%}
+.exd-ib__icon{display:inline-grid;place-items:center;flex:none;width:var(--exd-icon-box);height:var(--exd-icon-box);font-size:var(--exd-icon);line-height:1;color:var(--exd-primary);border:0 solid transparent;transition:transform .35s var(--exd-ease),background-color .3s,color .3s,border-color .3s}
+.exd-ib__icon svg{width:1em;height:1em;fill:currentColor}
+.exd-ib__icon i{font-size:1em}
+img.exd-ib__img{display:block;width:var(--exd-icon);height:var(--exd-icon);object-fit:contain}
+.exd-ib__num{font-size:.9em;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.exd-ib__title{margin:0 0 8px;color:var(--exd-heading);font-size:1.15rem;font-weight:700;line-height:1.35;transition:color .25s}
+.exd-ib__text{color:var(--exd-text);font-size:.97rem;line-height:1.65}
+.exd-ib__text>:last-child{margin-bottom:0}
+.exd-ib__more{display:inline-flex;align-items:center;gap:.4em;margin-top:14px;color:var(--exd-primary);font-weight:600;font-size:.92rem;transition:gap .25s var(--exd-ease)}
+.exd-ib:hover .exd-ib__more{gap:.7em}
+
+/* Vị trí icon */
+:where(.exd-pos-left) .exd-ib,:where(.exd-pos-right) .exd-ib{flex-direction:row;align-items:flex-start;text-align:left}
+:where(.exd-pos-right) .exd-ib{flex-direction:row-reverse;text-align:right}
+
+/* Kiểu: icon nền nhạt / đặc / viền */
+:where(.exd-s-soft,.exd-s-filled,.exd-s-outline,.exd-s-card,.exd-s-line,.exd-s-glass) .exd-ib{--exd-icon:26px;--exd-icon-box:60px}
+:where(.exd-s-soft,.exd-s-card,.exd-s-line) .exd-ib__icon{border-radius:16px;background:var(--exd-tint)}
+:where(.exd-s-soft) .exd-ib:hover .exd-ib__icon{background:var(--exd-primary);color:#fff}
+:where(.exd-s-filled) .exd-ib__icon{border-radius:50%;background:var(--exd-primary);color:#fff;box-shadow:0 10px 24px -10px var(--exd-primary)}
+:where(.exd-s-filled) .exd-ib:hover .exd-ib__icon{transform:translateY(-3px) rotate(-6deg)}
+:where(.exd-s-outline) .exd-ib__icon{border:2px solid color-mix(in srgb,var(--exd-primary) 35%,transparent);border-radius:50%}
+:where(.exd-s-outline) .exd-ib:hover .exd-ib__icon{border-color:var(--exd-primary);background:var(--exd-primary);color:#fff}
+
+/* Kiểu thẻ */
+:where(.exd-s-card,.exd-s-line,.exd-s-glass) .exd-ib{padding:28px}
+:where(.exd-s-card) .exd-ib{background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-card) .exd-ib:hover{transform:translateY(-6px);box-shadow:var(--exd-shadow-h);border-color:transparent}
+:where(.exd-s-card) .exd-ib:hover .exd-ib__icon{background:var(--exd-primary);color:#fff}
+:where(.exd-s-line) .exd-ib{background:var(--exd-surface);border:1px solid var(--exd-border);overflow:hidden}
+:where(.exd-s-line) .exd-ib::before{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:var(--exd-primary);transform:scaleX(.18);transform-origin:left;transition:transform .45s var(--exd-ease)}
+:where(.exd-s-line) .exd-ib:hover::before{transform:scaleX(1)}
+:where(.exd-s-line) .exd-ib:hover{box-shadow:var(--exd-shadow)}
+:where(.exd-s-glass) .exd-ib{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff}
+:where(.exd-s-glass) .exd-ib__icon{border-radius:16px;background:rgba(255,255,255,.16);color:#fff}
+:where(.exd-s-glass) .exd-ib__title{color:#fff}
+:where(.exd-s-glass) .exd-ib__text{color:rgba(255,255,255,.82)}
+:where(.exd-s-glass) .exd-ib__more{color:#fff}
+:where(.exd-s-glass) .exd-ib:hover{background:rgba(255,255,255,.18);transform:translateY(-4px)}
+
+@media (max-width:767px){
+	:where(.exd-s-card,.exd-s-line,.exd-s-glass) .exd-ib{padding:22px}
+}

@@ -1,0 +1,43 @@
+/* Tiêu đề XD */
+.exd-title{--exd-line-c:var(--exd-primary);--exd-line-h:3px;--exd-line-w:56px;--exd-line-gap:16px}
+.exd-title__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px}
+.exd-title__main{flex:1 1 var(--exd-basis,auto);min-width:0}
+.exd-title__eyebrow{display:inline-block;margin-bottom:10px;color:var(--exd-primary);font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+.exd-title__text{margin:0;color:var(--exd-heading);font-size:clamp(1.55rem,1.15rem + 1.6vw,2.4rem);font-weight:700;line-height:1.2;letter-spacing:-.02em;text-wrap:balance}
+.exd-title__desc{max-width:62ch;margin:14px var(--exd-mr,auto) 0 var(--exd-ml,0);color:var(--exd-text);font-size:1.02rem;line-height:1.65;text-wrap:pretty}
+.exd-title__line{display:none}
+.exd-title__link{display:inline-flex;align-items:center;gap:.4em;flex:none;color:var(--exd-primary);font-weight:600;font-size:.95rem;text-decoration:none;white-space:nowrap;transition:color .2s,gap .25s var(--exd-ease)}
+.exd-title__link:hover{gap:.65em}
+
+/* Gạch chân ngắn */
+:where(.exd-s-underline) .exd-title__text::after{content:"";display:block;width:var(--exd-line-w);height:var(--exd-line-h);margin:var(--exd-line-gap) var(--exd-mr,auto) 0 var(--exd-ml,0);border-radius:9px;background:var(--exd-line-c)}
+
+/* Kẻ ngang nối tới link */
+:where(.exd-s-line) .exd-title__head{flex-wrap:nowrap;align-items:center}
+:where(.exd-s-line) .exd-title__main{flex:0 1 auto}
+:where(.exd-s-line) .exd-title__line{display:block;flex:1 1 auto;min-width:24px;height:max(1px,calc(var(--exd-line-h) - 2px));border-radius:9px;background:color-mix(in srgb,var(--exd-line-c) 30%,transparent)}
+
+/* Kẻ hai bên */
+:where(.exd-s-center-line) .exd-title__text{display:flex;align-items:center;justify-content:var(--exd-jc,center);gap:var(--exd-line-gap)}
+:where(.exd-s-center-line) .exd-title__text::before,:where(.exd-s-center-line) .exd-title__text::after{content:"";flex:0 1 var(--exd-line-w);height:var(--exd-line-h);border-radius:9px;background:var(--exd-line-c)}
+:where(.exd-s-center-line) .exd-title__head{justify-content:center}
+:where(.exd-s-center-line) .exd-title__main{flex-basis:100%}
+
+/* Thanh nhấn trái */
+:where(.exd-s-bar) .exd-title__main{position:relative;padding-left:calc(var(--exd-line-gap) + var(--exd-line-h) + 2px)}
+:where(.exd-s-bar) .exd-title__main::before{content:"";position:absolute;left:0;top:.2em;bottom:.2em;width:calc(var(--exd-line-h) + 2px);border-radius:9px;background:var(--exd-line-c)}
+
+/* Dòng nhỏ dạng nhãn */
+:where(.exd-s-pill) .exd-title__eyebrow{display:inline-flex;align-items:center;gap:.5em;padding:.4em .95em;border-radius:999px;background:var(--exd-tint);letter-spacing:.06em;font-size:.75rem}
+:where(.exd-s-pill) .exd-title__eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Chữ lớn */
+:where(.exd-s-display) .exd-title__eyebrow{display:inline-flex;align-items:center;gap:12px}
+:where(.exd-s-display) .exd-title__eyebrow::before{content:"";width:28px;height:2px;background:currentColor}
+:where(.exd-s-display) .exd-title__text{font-size:clamp(2.1rem,1.3rem + 3.2vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-.035em}
+:where(.exd-s-display) .exd-title__desc{font-size:1.1rem}
+
+@media (max-width:767px){
+	:where(.exd-s-line) .exd-title__line{display:none}
+	:where(.exd-s-line) .exd-title__head{flex-wrap:wrap}
+}

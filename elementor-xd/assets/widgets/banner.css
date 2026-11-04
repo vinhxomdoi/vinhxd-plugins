@@ -1,0 +1,57 @@
+/* Banner XD – dùng chung cho Banner, Banner Grids, Slider */
+.exd-bn{position:relative;display:flex;min-height:var(--exd-bn-h,440px);height:100%;overflow:hidden;border-radius:var(--exd-radius);background:#0f172a;color:#fff;isolation:isolate;transition:transform .4s var(--exd-ease),box-shadow .4s}
+.exd-bn__bg{position:absolute;inset:0;z-index:0}
+.exd-bn__bg::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:rgba(2,6,23,.4);transition:opacity .4s,background-color .4s}
+img.exd-bn__img{position:absolute;inset:0}
+.exd-bn__inner{position:relative;display:flex;align-items:center;justify-content:flex-start;width:100%;padding:clamp(24px,5vw,64px)}
+.exd-bn__content{position:relative;max-width:640px;transition:transform .45s var(--exd-ease),background-color .3s}
+.exd-bn__eyebrow{display:inline-block;margin-bottom:12px;font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.exd-bn__title{margin:0 0 14px;color:inherit;font-size:clamp(1.7rem,1.15rem + 2.4vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-.025em;text-wrap:balance}
+.exd-bn__text{max-width:52ch;margin-bottom:26px;font-size:1.05rem;line-height:1.65;opacity:.9}
+.exd-bn__text>:last-child{margin-bottom:0}
+.exd-bn__content>:last-child{margin-bottom:0}
+.exd-bn__btns{position:relative;z-index:4;justify-content:var(--exd-jc,flex-start)}
+.exd-bn .exd-hl{color:color-mix(in srgb,var(--exd-primary) 55%,#fff)}
+
+/* Chữ trắng trên ảnh */
+:where(.exd-s-plain) .exd-bn__bg::before{background:rgba(2,6,23,.42)}
+/* Chuyển tối từ cạnh */
+:where(.exd-s-shade) .exd-bn__bg::before{background:linear-gradient(90deg,rgba(2,6,23,.85),rgba(2,6,23,.5) 45%,rgba(2,6,23,.05) 80%)}
+/* Nền sáng */
+:where(.exd-s-light) .exd-bn{color:var(--exd-heading);background:var(--exd-soft)}
+:where(.exd-s-light) .exd-bn__bg::before{background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.7) 45%,rgba(255,255,255,0) 80%)}
+:where(.exd-s-light) .exd-bn__eyebrow{color:var(--exd-primary);opacity:1}
+:where(.exd-s-light) .exd-bn__text{color:var(--exd-text);opacity:1}
+:where(.exd-s-light) .exd-bn .exd-hl{color:var(--exd-primary);background:none}
+:where(.exd-s-light,.exd-s-box,.exd-s-split) .exd-bn__btn2{border-color:currentColor;color:var(--exd-heading);background:transparent;backdrop-filter:none}
+:where(.exd-s-light,.exd-s-box,.exd-s-split) .exd-bn__btn2:hover{background:var(--exd-heading);border-color:var(--exd-heading);color:#fff}
+/* Hộp chữ trắng */
+:where(.exd-s-box) .exd-bn__bg::before{background:rgba(2,6,23,.12)}
+:where(.exd-s-box) .exd-bn__content{padding:clamp(24px,3vw,40px);border-radius:calc(var(--exd-radius) - 2px);background:#fff;color:var(--exd-heading);box-shadow:0 24px 60px -24px rgba(2,6,23,.45)}
+:where(.exd-s-box) .exd-bn__eyebrow{color:var(--exd-primary);opacity:1}
+:where(.exd-s-box) .exd-bn__text{color:var(--exd-text);opacity:1}
+:where(.exd-s-box) .exd-bn .exd-hl{color:var(--exd-primary);background:none}
+/* Hộp kính mờ */
+:where(.exd-s-glass) .exd-bn__bg::before{background:rgba(2,6,23,.25)}
+:where(.exd-s-glass) .exd-bn__content{padding:clamp(22px,3vw,38px);border:1px solid rgba(255,255,255,.25);border-radius:calc(var(--exd-radius) - 2px);background:rgba(255,255,255,.12);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2)}
+/* Chia đôi */
+:where(.exd-s-split) .exd-bn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--exd-soft);color:var(--exd-heading)}
+:where(.exd-s-split) .exd-bn__bg{position:relative;order:2;min-height:var(--exd-bn-h,440px)}
+:where(.exd-s-split) .exd-bn__title{font-size:clamp(1.5rem,1.05rem + 1.5vw,2.6rem)}
+:where(.exd-s-split) .exd-bn__inner{padding:clamp(24px,4vw,56px)}
+:where(.exd-s-split) .exd-bn__bg::before{opacity:0}
+:where(.exd-s-split) .exd-bn__eyebrow{color:var(--exd-primary);opacity:1}
+:where(.exd-s-split) .exd-bn__text{color:var(--exd-text);opacity:1}
+:where(.exd-s-split) .exd-bn .exd-hl{color:var(--exd-primary);background:none}
+
+/* Banner có link cả khối */
+.exd-bn--link{cursor:pointer}
+
+@media (max-width:767px){
+	.exd-bn{min-height:var(--exd-bn-h,380px)}
+	:where(.exd-s-shade) .exd-bn__bg::before{background:linear-gradient(0deg,rgba(2,6,23,.88),rgba(2,6,23,.45) 55%,rgba(2,6,23,.1))}
+	:where(.exd-s-shade) .exd-bn__inner{align-items:flex-end}
+	:where(.exd-s-light) .exd-bn__bg::before{background:linear-gradient(0deg,rgba(255,255,255,.96),rgba(255,255,255,.75) 55%,rgba(255,255,255,.2))}
+	:where(.exd-s-split) .exd-bn{grid-template-columns:minmax(0,1fr)}
+	:where(.exd-s-split) .exd-bn__bg{order:0;min-height:0;aspect-ratio:16/10}
+}

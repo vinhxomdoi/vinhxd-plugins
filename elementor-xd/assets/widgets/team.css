@@ -1,0 +1,56 @@
+/* Thành viên XD */
+.exd-team{position:relative;display:flex;flex-direction:column;height:100%;border-radius:var(--exd-radius);transition:transform .4s var(--exd-ease),box-shadow .4s}
+.exd-team__media{aspect-ratio:4/5;border-radius:var(--exd-radius);isolation:isolate}
+.exd-team__media>a{display:block;height:100%}
+.exd-team__body{position:relative;z-index:2;padding-top:18px;transition:transform .45s var(--exd-ease),opacity .35s}
+.exd-team__name{margin:0 0 4px;color:var(--exd-heading);font-size:1.15rem;font-weight:700;line-height:1.3}
+.exd-team__name a{color:inherit;text-decoration:none}
+.exd-team__role{color:var(--exd-primary);font-size:.9rem;font-weight:600}
+.exd-team__bio{margin-top:10px;color:var(--exd-text);font-size:.94rem;line-height:1.6}
+.exd-team__bio>:last-child{margin-bottom:0}
+.exd-team__soc{--exd-icon:15px;--exd-icon-box:36px;display:flex;flex-wrap:wrap;justify-content:var(--exd-jc,flex-start);gap:var(--exd-icon-gap,8px);margin-top:14px}
+.exd-team__soc a{display:grid;place-items:center;width:var(--exd-icon-box);height:var(--exd-icon-box);font-size:var(--exd-icon);border-radius:50%;background:var(--exd-soft);color:var(--exd-heading);text-decoration:none;border:0 solid transparent;transition:background-color .25s,color .25s,transform .25s var(--exd-ease)}
+.exd-team__soc a:hover,.exd-team__soc a:focus-visible{background:var(--exd-primary);color:#fff;transform:translateY(-2px)}
+.exd-team__soc svg{width:1em;height:1em;fill:currentColor}
+
+/* Thẻ */
+:where(.exd-s-card) .exd-team{overflow:hidden;background:var(--exd-surface);border:1px solid var(--exd-border);box-shadow:var(--exd-shadow)}
+:where(.exd-s-card) .exd-team__media{border-radius:0}
+:where(.exd-s-card) .exd-team__body{flex:1 1 auto;padding:20px 22px 24px}
+:where(.exd-s-card) .exd-team:hover{transform:translateY(-6px);box-shadow:var(--exd-shadow-h)}
+
+/* Thông tin trên ảnh */
+:where(.exd-s-overlay) .exd-team{overflow:hidden}
+:where(.exd-s-overlay) .exd-team__media{aspect-ratio:3/4;height:100%}
+:where(.exd-s-overlay) .exd-team__media::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(2,6,23,.85),rgba(2,6,23,0) 55%);transition:opacity .4s}
+:where(.exd-s-overlay) .exd-team__body{position:absolute;left:0;right:0;bottom:0;padding:24px;color:#fff}
+:where(.exd-s-overlay) .exd-team__name{color:#fff}
+:where(.exd-s-overlay) .exd-team__role{color:rgba(255,255,255,.8)}
+:where(.exd-s-overlay) .exd-team__bio{color:rgba(255,255,255,.85)}
+:where(.exd-s-overlay) .exd-team__soc a{background:rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(6px)}
+:where(.exd-s-overlay) .exd-team__extra{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s var(--exd-ease),opacity .35s}
+:where(.exd-s-overlay) .exd-team__extra-in{min-height:0;overflow:hidden}
+:where(.exd-s-overlay) .exd-team:hover .exd-team__extra,:where(.exd-s-overlay) .exd-team:focus-within .exd-team__extra{grid-template-rows:1fr;opacity:1}
+
+/* Ảnh tròn */
+:where(.exd-s-circle) .exd-team{--exd-jc:center;align-items:center;text-align:center}
+:where(.exd-s-circle) .exd-team__media{width:168px;max-width:100%;aspect-ratio:1/1;border-radius:50%;box-shadow:0 0 0 6px var(--exd-surface),0 0 0 7px var(--exd-border);transition:box-shadow .3s}
+:where(.exd-s-circle) .exd-team:hover .exd-team__media{box-shadow:0 0 0 6px var(--exd-surface),0 0 0 8px var(--exd-primary)}
+:where(.exd-s-circle) .exd-team__body{padding-top:24px}
+
+/* Thẻ tên nổi */
+:where(.exd-s-float) .exd-team{--exd-jc:center;text-align:center}
+:where(.exd-s-float) .exd-team__body{margin:-54px 18px 0;padding:18px 18px 20px;border-radius:calc(var(--exd-radius) - 2px);background:var(--exd-surface);box-shadow:var(--exd-shadow)}
+:where(.exd-s-float) .exd-team:hover .exd-team__body{transform:translateY(-6px);box-shadow:var(--exd-shadow-h)}
+
+/* Ảnh bên trái */
+:where(.exd-s-side) .exd-team{display:grid;grid-template-columns:minmax(0,40%) minmax(0,1fr);gap:26px;align-items:center}
+:where(.exd-s-side) .exd-team__media{aspect-ratio:1/1}
+:where(.exd-s-side) .exd-team__body{padding:0}
+
+@media (hover:none){
+	:where(.exd-s-overlay) .exd-team__extra{grid-template-rows:1fr;opacity:1}
+}
+@media (max-width:767px){
+	:where(.exd-s-side) .exd-team{grid-template-columns:minmax(0,36%) minmax(0,1fr);gap:16px}
+}

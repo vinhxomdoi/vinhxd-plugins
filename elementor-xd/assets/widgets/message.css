@@ -1,0 +1,41 @@
+/* Hộp thông báo XD */
+.exd-msg{--exd-icon:22px;--exd-icon-box:48px;--exd-icon-gap:18px;position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:var(--exd-icon-gap);padding:20px 24px;border-radius:var(--exd-radius);transition:opacity .3s,transform .3s var(--exd-ease)}
+.exd-msg__icon{display:grid;place-items:center;flex:none;width:var(--exd-icon-box);height:var(--exd-icon-box);font-size:var(--exd-icon);border-radius:14px;border:0 solid transparent;transition:background-color .25s,color .25s,transform .3s var(--exd-ease)}
+.exd-msg__icon svg{width:1em;height:1em;fill:currentColor}
+.exd-msg__body{flex:1 1 220px;min-width:0}
+.exd-msg__title{margin-bottom:2px;font-weight:700;font-size:1.06rem;line-height:1.35;color:var(--exd-heading)}
+.exd-msg__text{font-size:.95rem;line-height:1.6;color:var(--exd-text)}
+.exd-msg__text>:last-child{margin-bottom:0}
+.exd-msg__actions{flex:none}
+.exd-msg__close{position:absolute;top:8px;right:8px;display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:transparent;color:currentColor;opacity:.55;cursor:pointer;transition:opacity .2s,background-color .2s}
+.exd-msg__close:hover,.exd-msg__close:focus-visible{opacity:1;background:rgba(15,23,42,.08)}
+[data-exd-dismiss]{padding-right:48px}
+.exd-msg.is-closing{opacity:0;transform:translateY(-6px)}
+
+/* Bố cục xếp dọc */
+:where(.exd-lay-stack) .exd-msg{flex-direction:column;flex-wrap:nowrap;align-items:var(--exd-jc,flex-start)}
+:where(.exd-lay-stack) .exd-msg__body{flex:0 0 auto;width:100%}
+
+/* Kiểu */
+:where(.exd-s-soft) .exd-msg{background:var(--exd-tint)}
+:where(.exd-s-soft) .exd-msg__icon{background:var(--exd-primary);color:#fff}
+:where(.exd-s-solid,.exd-s-gradient) .exd-msg{color:#fff;background:var(--exd-primary)}
+:where(.exd-s-gradient) .exd-msg{background:linear-gradient(120deg,var(--exd-primary),color-mix(in srgb,var(--exd-primary) 55%,#7c3aed))}
+:where(.exd-s-solid,.exd-s-gradient,.exd-s-dark) .exd-msg__title{color:#fff}
+:where(.exd-s-solid,.exd-s-gradient) .exd-msg__text{color:rgba(255,255,255,.88)}
+:where(.exd-s-solid,.exd-s-gradient,.exd-s-dark) .exd-msg__icon{background:rgba(255,255,255,.16);color:#fff}
+:where(.exd-s-solid,.exd-s-gradient) .exd-msg__btn{background:#fff;color:var(--exd-heading)}
+:where(.exd-s-solid,.exd-s-gradient) .exd-msg__btn:hover{background:var(--exd-heading);color:#fff}
+:where(.exd-s-solid,.exd-s-gradient,.exd-s-dark) .exd-msg__btn2{color:#fff}
+:where(.exd-s-solid,.exd-s-gradient,.exd-s-dark) .exd-msg__btn2:hover{background:#fff;border-color:#fff;color:var(--exd-heading)}
+:where(.exd-s-outline) .exd-msg{border:1.5px solid color-mix(in srgb,var(--exd-primary) 40%,transparent);background:var(--exd-surface)}
+:where(.exd-s-outline) .exd-msg__icon{background:var(--exd-tint);color:var(--exd-primary)}
+:where(.exd-s-accent) .exd-msg{background:var(--exd-surface);border:1px solid var(--exd-border);border-left:4px solid var(--exd-primary);box-shadow:var(--exd-shadow);border-radius:10px}
+:where(.exd-s-accent) .exd-msg__icon{background:none;color:var(--exd-primary);width:auto}
+:where(.exd-s-dark) .exd-msg{background:#0f172a;color:#f1f5f9}
+:where(.exd-s-dark) .exd-msg__text{color:#cbd5e1}
+
+@media (max-width:767px){
+	.exd-msg__body{flex-basis:calc(100% - var(--exd-icon-box) - var(--exd-icon-gap))}
+	.exd-msg__actions{width:100%}
+}

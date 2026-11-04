@@ -1,0 +1,56 @@
+/* Slider XD – CSS scroll-snap, không thư viện ngoài */
+.exd-sl{--exd-per:1;--exd-gap:0px;--exd-peek:0px;--exd-arrow:46px;--exd-arrow-x:16px;--exd-dot-y:18px;--exd-dot:rgba(255,255,255,.55);--exd-dot-on:#fff;position:relative}
+.exd-sl__track{display:flex;gap:var(--exd-gap);overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;outline:0}
+.exd-sl__track::-webkit-scrollbar{display:none}
+.exd-sl__track:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--exd-primary) 45%,transparent)}
+.exd-sl__slide{flex:0 0 calc((100% - var(--exd-peek) - (var(--exd-per) - 1) * var(--exd-gap)) / var(--exd-per));min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
+.exd-sl__slide>.exd-bn{height:100%}
+:where(.exd-sl) .exd-bn__inner{padding-inline:max(clamp(24px,5vw,64px),calc(var(--exd-arrow) + var(--exd-arrow-x) + 16px))}
+
+/* Mờ dần: xếp chồng các slide */
+:where(.exd-eff-fade) .exd-sl__track{display:grid;overflow:hidden;scroll-snap-type:none}
+:where(.exd-eff-fade) .exd-sl__slide{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility 0s linear .7s}
+:where(.exd-eff-fade) .exd-sl__slide.is-active{opacity:1;visibility:visible;transition:opacity .7s ease}
+:where(.exd-eff-fade) .exd-sl__slide.is-active .exd-bn__content{animation:exd-sl-up .8s var(--exd-ease) both}
+@keyframes exd-sl-up{from{opacity:0;transform:translateY(18px)}}
+
+/* Mũi tên */
+.exd-sl__arrow{position:absolute;top:50%;z-index:5;display:grid;place-items:center;width:var(--exd-arrow);height:var(--exd-arrow);margin-top:calc(var(--exd-arrow) / -2);padding:0;border:0;border-radius:50%;font-size:calc(var(--exd-arrow) * .42);cursor:pointer;transition:background-color .25s,color .25s,opacity .25s,transform .25s var(--exd-ease)}
+.exd-sl__prev{left:var(--exd-arrow-x)}
+.exd-sl__next{right:var(--exd-arrow-x)}
+.exd-sl__next svg{transform:scaleX(-1)}
+.exd-sl__arrow:disabled{opacity:.35;cursor:default}
+.exd-sl__arrow:not(:disabled):active{transform:scale(.94)}
+:where(.exd-nav-circle) .exd-sl__arrow{background:#fff;color:#0f172a;box-shadow:0 8px 24px -8px rgba(2,6,23,.35)}
+:where(.exd-nav-circle) .exd-sl__arrow:hover{background:var(--exd-primary);color:#fff}
+:where(.exd-nav-glass) .exd-sl__arrow{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+:where(.exd-nav-glass) .exd-sl__arrow:hover{background:#fff;color:#0f172a}
+:where(.exd-nav-square) .exd-sl__arrow{border-radius:10px;background:#0f172a;color:#fff}
+:where(.exd-nav-square) .exd-sl__arrow:hover{background:var(--exd-primary)}
+:where(.exd-nav-minimal) .exd-sl__arrow{background:none;color:#fff;font-size:calc(var(--exd-arrow) * .7);filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+:where(.exd-nav-none) .exd-sl__arrow{display:none}
+@media (hover:hover){
+	:where(.exd-nav-circle,.exd-nav-glass,.exd-nav-square,.exd-nav-minimal) .exd-sl__arrow{opacity:0}
+	.exd-sl:hover .exd-sl__arrow:not(:disabled),.exd-sl:focus-within .exd-sl__arrow:not(:disabled){opacity:1}
+	.exd-sl:hover .exd-sl__arrow:disabled{opacity:.35}
+}
+
+/* Chấm */
+.exd-sl__dots{position:absolute;left:0;right:0;bottom:var(--exd-dot-y);z-index:5;display:flex;justify-content:center;gap:6px;pointer-events:none}
+.exd-sl__dot{display:grid;place-items:center;min-width:22px;height:22px;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto}
+.exd-sl__dot i{display:block;width:8px;height:8px;border-radius:9px;background:var(--exd-dot);transition:width .35s var(--exd-ease),background-color .25s}
+.exd-sl__dot.is-active i{background:var(--exd-dot-on)}
+.exd-sl__dot[hidden]{display:none}
+:where(.exd-dot-pills) .exd-sl__dot.is-active i{width:26px}
+:where(.exd-dot-lines) .exd-sl__dot i{width:22px;height:3px;border-radius:2px}
+:where(.exd-dot-lines) .exd-sl__dot.is-active i{width:36px}
+:where(.exd-dot-none) .exd-sl__dots{display:none}
+:where(.exd-dotpos-outside) .exd-sl__dots{position:static;margin-top:14px;--exd-dot:rgba(15,23,42,.2);--exd-dot-on:var(--exd-primary)}
+
+@media (max-width:767px){
+	.exd-sl{--exd-arrow:38px;--exd-arrow-x:10px}
+	:where(.exd-sl) .exd-bn__inner{padding-inline:24px;padding-bottom:64px}
+	:where(.exd-nav-circle,.exd-nav-glass,.exd-nav-square,.exd-nav-minimal) .exd-sl__arrow{top:auto;bottom:10px;margin-top:0}
+	.exd-sl__prev{left:auto;right:calc(var(--exd-arrow-x) + var(--exd-arrow) + 8px)}
+}
+@media (prefers-reduced-motion:reduce){.exd-sl__track{scroll-behavior:auto}}
