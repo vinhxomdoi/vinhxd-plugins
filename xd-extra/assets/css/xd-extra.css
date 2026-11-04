@@ -1,0 +1,175 @@
+/* XD Extra – nút liên hệ nổi & nút lên đầu trang */
+
+/* Vị trí chung: desktop dùng --xd-b, mobile dùng --xd-bm (đặt inline từ trang Nút Liên Hệ) */
+.xd-fixed { position: fixed; z-index: 99999; bottom: var(--xd-b, 20px); }
+@media (max-width: 768px) { .xd-fixed { bottom: var(--xd-bm, var(--xd-b, 20px)); } }
+
+/* ---- Nút Gọi / Zalo ---- */
+.xd-btn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-family: var(--xd-font, 'Be Vietnam Pro', sans-serif);
+    position: relative;
+    color: #fff;
+}
+.xd-btn:hover, .xd-btn:focus { color: #fff; text-decoration: none; }
+.xd-btn:focus-visible { outline: 2px solid var(--xd-c, #e31b23); outline-offset: 3px; border-radius: 30px; }
+
+.xd-btn .xd-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--xd-c, #e31b23);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    animation: xd-wiggle 2s infinite;
+}
+.xd-btn .xd-icon svg,
+.xd-btn .xd-icon img { width: 25px; height: 25px; display: block; color: #fff; fill: #fff; }
+
+/* Vòng sóng: chỉ đổi transform/opacity để không bắt trình duyệt tính lại layout */
+.xd-btn .xd-icon::before,
+.xd-btn .xd-icon::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--xd-c, #e31b23);
+    opacity: .4;
+    z-index: -1;
+    animation: xd-pulse 2s infinite;
+    will-change: transform, opacity;
+}
+.xd-btn .xd-icon::after { animation-delay: .5s; }
+
+.xd-btn .xd-body {
+    background: var(--xd-c, #e31b23);
+    color: #fff;
+    padding: 12px 18px 12px 36px;
+    border-radius: 0 30px 30px 0;
+    margin-left: -28px;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
+    white-space: nowrap;
+    line-height: 1;
+}
+.xd-btn.xd-btn-right { flex-direction: row-reverse; }
+.xd-btn.xd-btn-right .xd-body {
+    border-radius: 30px 0 0 30px;
+    margin-left: 0;
+    margin-right: -28px;
+    padding: 12px 36px 12px 18px;
+}
+
+@keyframes xd-wiggle {
+    0%, 100% { transform: rotate(0); }
+    10%, 30%, 50%, 70% { transform: rotate(-15deg); }
+    20%, 40%, 60%, 80% { transform: rotate(15deg); }
+}
+@keyframes xd-pulse {
+    0%   { transform: scale(1); opacity: .45; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* ---- Messenger ---- */
+.xd-messenger-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 132, 255, .45);
+    text-decoration: none;
+    animation: xd-messenger-shake 1.4s ease-in-out infinite;
+    transform-origin: top center;
+}
+.xd-messenger-btn:hover { animation-play-state: paused; transform: scale(1.1); }
+@keyframes xd-messenger-shake {
+    0%, 100% { transform: rotate(0); } 15% { transform: rotate(-18deg); } 30% { transform: rotate(16deg); }
+    45% { transform: rotate(-12deg); } 60% { transform: rotate(10deg); } 75% { transform: rotate(-6deg); } 90% { transform: rotate(4deg); }
+}
+
+@media (max-width: 768px) {
+    .xd-btn .xd-body { display: none; }
+}
+
+/* ---- Nút lên đầu trang ---- */
+#xd-back-to-top {
+    position: fixed;
+    bottom: var(--xd-b, 50px);
+    z-index: 99998;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    background: var(--xd-tt1, #238543);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    visibility: hidden;
+    transition: transform .4s ease-in-out, visibility .4s;
+    box-shadow: none;
+}
+@media (max-width: 768px) { #xd-back-to-top { bottom: var(--xd-bm, var(--xd-b, 50px)); } }
+#xd-back-to-top.xd-totop-right { right: 0; left: auto; border-radius: 50px 0 0 50px; transform: translateX(100%); }
+#xd-back-to-top.xd-totop-left  { left: 0; right: auto; border-radius: 0 50px 50px 0; transform: translateX(-100%); }
+#xd-back-to-top.xd-totop-left .xd-totop-inner { margin: 0 0 0 8px; }
+#xd-back-to-top.show { transform: translateX(0); visibility: visible; }
+#xd-back-to-top:focus-visible { outline: 2px solid var(--xd-tt2, #f7c315); outline-offset: 2px; }
+#xd-back-to-top .xd-totop-inner {
+    width: 40px;
+    height: 40px;
+    background: var(--xd-tt2, #f7c315);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    transition: transform .2s;
+}
+#xd-back-to-top:hover .xd-totop-inner { transform: scale(1.1); }
+
+/* ---- Nút nhấp nháy (chỉ mobile) ---- */
+.xd-call-tooltip { display: none; }
+@media (max-width: 768px) {
+    .xd-call-tooltip {
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        -webkit-tap-highlight-color: transparent;
+        animation: xd-call-appear 5s infinite;
+    }
+    .xd-call-tooltip:hover, .xd-call-tooltip:focus { color: #fff; }
+    .xd-call-tooltip .xd-call-highlight { color: #ffde00; margin-left: 4px; font-weight: 900; text-transform: uppercase; }
+    .xd-call-tooltip .xd-call-hand { font-size: 16px; margin-right: 5px; animation: xd-call-hand-point .8s infinite alternate; }
+}
+@keyframes xd-call-appear {
+    0%, 10%   { opacity: 0; transform: translateX(10px) scale(.9); }
+    15%, 85%  { opacity: 1; transform: translateX(0) scale(1); }
+    90%, 100% { opacity: 0; transform: translateX(10px) scale(.9); }
+}
+@keyframes xd-call-hand-point { from { transform: translateX(0); } to { transform: translateX(-4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .xd-btn .xd-icon, .xd-btn .xd-icon::before, .xd-btn .xd-icon::after,
+    .xd-messenger-btn, .xd-call-tooltip, .xd-call-hand { animation: none; }
+    .xd-call-tooltip { opacity: 1; }
+}

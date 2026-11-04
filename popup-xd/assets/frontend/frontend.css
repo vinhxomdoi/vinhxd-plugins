@@ -1,0 +1,169 @@
+.popupxd-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: none;
+	opacity: 0;
+	transition: opacity .25s ease;
+	overscroll-behavior: contain;
+	-webkit-tap-highlight-color: transparent;
+}
+.popupxd-overlay.popupxd-active {
+	display: flex;
+	opacity: 1;
+}
+
+/* Nút mở popup (shortcode [popupxd]) */
+.popupxd-btn {
+	cursor: pointer;
+	border: 0;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	line-height: 1.4;
+	font-family: inherit;
+}
+.popupxd-btn:hover,
+.popupxd-btn:focus {
+	opacity: .92;
+}
+
+/* Position variants */
+.popupxd-overlay.popupxd-pos-center { align-items: center; justify-content: center; }
+.popupxd-overlay.popupxd-pos-top { align-items: flex-start; justify-content: center; }
+.popupxd-overlay.popupxd-pos-bottom { align-items: flex-end; justify-content: center; }
+.popupxd-overlay.popupxd-pos-left { align-items: center; justify-content: flex-start; }
+.popupxd-overlay.popupxd-pos-right { align-items: center; justify-content: flex-end; }
+
+/* The box is not the scroll container, so the close button stays put
+   (and may be pushed outside the box with negative offsets). */
+.popupxd-box {
+	position: relative;
+	width: 92%;
+	background: #fff;
+	box-sizing: border-box;
+	transform: scale(1) translate(0, 0);
+	opacity: 1;
+	transition: transform .3s ease, opacity .3s ease;
+}
+.popupxd-box:focus { outline: none; }
+
+.popupxd-content {
+	max-height: 90vh;
+	max-height: 90dvh;
+	overflow: auto;
+	overscroll-behavior: contain;
+	-webkit-overflow-scrolling: touch;
+	box-sizing: border-box;
+	border-radius: inherit;
+}
+
+/* Shadow variants */
+.popupxd-shadow-sm .popupxd-box { box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.popupxd-shadow-md .popupxd-box { box-shadow: 0 8px 30px rgba(0,0,0,.18); }
+.popupxd-shadow-lg .popupxd-box { box-shadow: 0 20px 60px rgba(0,0,0,.28); }
+
+.popupxd-close {
+	position: absolute;
+	background: transparent;
+	border: 0;
+	font-size: 26px;
+	line-height: 1;
+	cursor: pointer;
+	color: #333;
+	z-index: 2;
+}
+/* Invisible hit area: at least ~44×44px to tap, whatever the icon size. */
+.popupxd-close::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 44px;
+	height: 44px;
+	min-width: 100%;
+	min-height: 100%;
+	transform: translate(-50%, -50%);
+}
+.popupxd-close:focus { outline: none; }
+.popupxd-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* Entrance animations: initial (pre-active) state, then transition on .popupxd-active */
+.popupxd-anim-fade .popupxd-box { opacity: 0; }
+.popupxd-anim-fade.popupxd-active .popupxd-box { opacity: 1; }
+
+.popupxd-anim-zoom-in .popupxd-box { opacity: 0; transform: scale(.85); }
+.popupxd-anim-zoom-in.popupxd-active .popupxd-box { opacity: 1; transform: scale(1); }
+
+.popupxd-anim-zoom-out .popupxd-box { opacity: 0; transform: scale(1.15); }
+.popupxd-anim-zoom-out.popupxd-active .popupxd-box { opacity: 1; transform: scale(1); }
+
+.popupxd-anim-slide-up .popupxd-box { opacity: 0; transform: translateY(60px); }
+.popupxd-anim-slide-up.popupxd-active .popupxd-box { opacity: 1; transform: translateY(0); }
+
+.popupxd-anim-slide-down .popupxd-box { opacity: 0; transform: translateY(-60px); }
+.popupxd-anim-slide-down.popupxd-active .popupxd-box { opacity: 1; transform: translateY(0); }
+
+.popupxd-anim-slide-left .popupxd-box { opacity: 0; transform: translateX(60px); }
+.popupxd-anim-slide-left.popupxd-active .popupxd-box { opacity: 1; transform: translateX(0); }
+
+.popupxd-anim-slide-right .popupxd-box { opacity: 0; transform: translateX(-60px); }
+.popupxd-anim-slide-right.popupxd-active .popupxd-box { opacity: 1; transform: translateX(0); }
+
+/* Scroll lock (html + body: needed for iOS Safari) */
+html.popupxd-noscroll,
+body.popupxd-noscroll { overflow: hidden !important; }
+
+/* Device targeting for automatic triggers is handled in JS, so a popup
+   that isn't meant for this device never opens (and never locks scroll). */
+
+@media (max-width: 480px) {
+	.popupxd-box { width: 94%; }
+}
+
+/* Mobile "bottom sheet": slides up from the bottom, full width. */
+@media (max-width: 767px) {
+	.popupxd-overlay.popupxd-mobile-sheet {
+		align-items: flex-end !important;
+		justify-content: center !important;
+	}
+	.popupxd-mobile-sheet .popupxd-box {
+		width: 100% !important;
+		max-width: none !important;
+		inset: auto !important;
+		border-bottom-width: 0 !important;
+		border-radius: var(--pxd-radius, 16px) var(--pxd-radius, 16px) 0 0 !important;
+		opacity: 1 !important;
+		transform: translateY(100%) !important;
+		transition: transform .32s cubic-bezier(.2, .8, .2, 1) !important;
+		padding-top: 14px;
+	}
+	.popupxd-mobile-sheet.popupxd-active .popupxd-box { transform: translateY(0) !important; }
+	/* grab handle */
+	.popupxd-mobile-sheet .popupxd-box::before {
+		content: "";
+		position: absolute;
+		top: 6px;
+		left: 50%;
+		width: 40px;
+		height: 4px;
+		margin-left: -20px;
+		border-radius: 2px;
+		background: rgba(0, 0, 0, .18);
+	}
+	.popupxd-mobile-sheet .popupxd-content {
+		max-height: 85vh;
+		max-height: 85dvh;
+		padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px) !important;
+	}
+	/* "outside" close positions don't fit above a full-width sheet edge well → keep inside */
+	.popupxd-mobile-sheet.popupxd-close-outside-top-right .popupxd-close,
+	.popupxd-mobile-sheet.popupxd-close-outside-top-left .popupxd-close { bottom: auto !important; top: 10px !important; }
+	.popupxd-mobile-sheet.popupxd-close-outside-top-right .popupxd-close { right: 10px !important; }
+	.popupxd-mobile-sheet.popupxd-close-outside-top-left .popupxd-close { left: 10px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.popupxd-overlay,
+	.popupxd-box { transition: none !important; }
+}

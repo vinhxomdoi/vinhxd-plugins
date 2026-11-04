@@ -1,0 +1,53 @@
+/* Shortcode [xd_xe_grid] – lưới card xe.
+   Số cột lấy từ biến do shortcode in ra: --xd-mm-cols (desktop), -t (≤1024px), -m (≤767px). */
+.xd-mm-grid {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(var(--xd-mm-cols, 4), minmax(0, 1fr));
+}
+
+.xd-mm-card {
+	display: block;
+	min-width: 0;
+	text-decoration: none;
+	color: #222;
+	text-align: center;
+}
+
+.xd-mm-thumb img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.xd-mm-name {
+	margin-top: 8px;
+	font-weight: 600;
+	font-size: 14px;
+	color: #1e3a8a;
+}
+
+.xd-mm-price {
+	margin-top: 4px;
+	font-size: 13px;
+	font-weight: 700;
+	color: #dc2626;
+}
+
+.xd-mm-empty {
+	text-align: center;
+	color: #888;
+	grid-column: 1 / -1;
+}
+
+@media (max-width: 1024px) {
+	.xd-mm-grid {
+		grid-template-columns: repeat(var(--xd-mm-cols-t, 4), minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 767px) {
+	.xd-mm-grid {
+		grid-template-columns: repeat(var(--xd-mm-cols-m, 2), minmax(0, 1fr));
+	}
+}

@@ -1,0 +1,153 @@
+/* ==========================================================================
+   Popup XD — admin
+   ========================================================================== */
+
+/* Box (rendered via edit_form_after_title, outside the normal metabox flow) */
+.popupxd-postbox { background: #fff; border: 1px solid #c3c4c7; box-shadow: 0 1px 1px rgba(0,0,0,.04); margin: 20px 0; }
+.popupxd-postbox > .inside { padding: 12px 16px 16px; margin: 0; container-type: inline-size; }
+
+.pxd-boxhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #dcdcde; }
+.pxd-boxtitle { margin: 0 !important; padding: 0 !important; font-size: 14px !important; line-height: 1.4 !important; }
+
+/* On/off switch */
+.pxd-switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; font-weight: 600; color: #00a32a; }
+.pxd-switch.is-off { color: #646970; }
+.pxd-switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pxd-switch-ui { position: relative; width: 36px; height: 20px; border-radius: 10px; background: #c3c4c7; transition: background .15s; flex: none; }
+.pxd-switch-ui::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
+.pxd-switch input:checked + .pxd-switch-ui { background: #00a32a; }
+.pxd-switch input:checked + .pxd-switch-ui::after { transform: translateX(16px); }
+.pxd-switch input:focus-visible + .pxd-switch-ui { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2271b1; }
+
+/* Summary line */
+.pxd-summary { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding: 9px 16px; background: #f0f6fc; border-bottom: 1px solid #dcdcde; color: #1d2327; font-size: 13px; }
+.pxd-summary .dashicons { color: #2271b1; font-size: 18px; width: 18px; height: 18px; margin-top: 1px; }
+.pxd-summary.is-off { background: #f6f7f7; color: #646970; }
+.pxd-summary.is-off .dashicons { color: #8c8f94; }
+
+/* Tabs */
+.popupxd-tabs-nav { margin-bottom: 0; padding-top: 0 !important; }
+.popupxd-tabs-nav .nav-tab { margin-left: 0; margin-right: 4px; }
+.popupxd-tab-panel { border: 1px solid #c3c4c7; border-top: none; padding: 6px 18px 16px; background: #fff; }
+.popupxd-tab-panel .form-table { margin-top: 0; }
+.popupxd-tab-panel .form-table th { width: 200px; padding: 14px 10px 14px 0; }
+.popupxd-tab-panel .form-table td { padding: 10px 10px; }
+.pxd-row-elementor, .pxd-row-editor, .pxd-row-specific { display: none; }
+
+.pxd-section { margin: 18px 0 2px; padding: 8px 0 6px; border-bottom: 1px solid #f0f0f1; font-size: 13px; text-transform: uppercase; letter-spacing: .03em; color: #50575e; }
+.pxd-section:first-child { margin-top: 10px; }
+.pxd-section-note { text-transform: none; letter-spacing: 0; font-weight: 400; color: #8c8f94; }
+
+/* Field helpers */
+.pxd-inline { line-height: 2.6; }
+.pxd-inline .wp-picker-container { vertical-align: middle; }
+.pxd-lbl { color: #50575e; margin: 0 2px 0 6px; }
+.pxd-lbl:first-child { margin-left: 0; }
+.pxd-num { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.pxd-unit { color: #646970; font-size: 12px; }
+.pxd-radios { display: inline-flex; flex-wrap: wrap; gap: 4px 18px; }
+.pxd-check { white-space: nowrap; }
+.pxd-inline-check { display: inline-block; margin: 0 16px 6px 0; }
+.pxd-sub { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
+.pxd-dep.is-off { opacity: .45; }
+.pxd-triggers th { font-weight: 400; }
+.pxd-triggers th .pxd-check { font-weight: 600; }
+.pxd-close-gap { margin-left: 8px; }
+
+/* Validation */
+input.pxd-invalid { border-color: #d63638 !important; box-shadow: 0 0 0 1px #d63638 !important; }
+.pxd-field-error { display: block; margin-top: 4px; color: #d63638; font-size: 12px; }
+.pxd-save-blocked { margin: 0 0 12px !important; }
+
+/* Warnings */
+.pxd-warn-row td { padding-top: 0 !important; }
+.pxd-warn { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-left: 4px solid #dba617; background: #fcf9e8; font-size: 13px; }
+.pxd-warn .dashicons { color: #dba617; flex: none; }
+.pxd-warn-text { color: #8a6116; }
+.pxd-forms-note { padding-top: 0 !important; }
+
+/* Advanced (collapsed) */
+.pxd-advanced { margin-top: 18px; border: 1px solid #dcdcde; border-radius: 4px; padding: 0 14px; }
+.pxd-advanced > summary { cursor: pointer; padding: 10px 0; font-weight: 600; color: #50575e; }
+.pxd-advanced[open] > summary { border-bottom: 1px solid #f0f0f1; margin-bottom: 6px; }
+
+/* Page picker */
+.pxd-pagepick { max-width: 520px; border: 1px solid #c3c4c7; border-radius: 4px; }
+.pxd-pagepick-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px; border-bottom: 1px solid #dcdcde; background: #f6f7f7; }
+.pxd-pagepick-search { flex: 1 1 180px; min-width: 0; }
+.pxd-pagepick-count { color: #646970; font-size: 12px; margin-left: auto; }
+.pxd-pagepick-list { max-height: 230px; overflow: auto; padding: 4px 0; }
+.pxd-pagepick-list label { display: flex; align-items: center; gap: 8px; padding: 5px 10px; }
+.pxd-pagepick-list label:hover { background: #f0f6fc; }
+.pxd-pid { margin-left: auto; color: #8c8f94; font-size: 11px; }
+
+/* Copy fields */
+.pxd-copy { display: inline-flex; gap: 6px; max-width: 100%; flex-wrap: wrap; }
+.pxd-copy input { font-family: Menlo, Consolas, monospace; font-size: 12px; max-width: 100%; }
+.pxd-copy-btn { display: inline-flex !important; align-items: center; gap: 4px; }
+.pxd-copy-btn .dashicons { font-size: 16px; width: 16px; height: 16px; }
+.pxd-copy-btn.is-copied { color: #00a32a !important; border-color: #00a32a !important; }
+
+.pxd-events { max-width: 760px; margin-top: 8px; }
+.pxd-events td, .pxd-events th { font-size: 12px; vertical-align: top; }
+
+/* Elementor template actions */
+.pxd-template-actions { display: inline-flex; gap: 6px; flex-wrap: wrap; vertical-align: middle; margin: 4px 0 0 6px; }
+.pxd-template-actions .button { display: inline-flex; align-items: center; gap: 4px; }
+.pxd-template-actions .dashicons { font-size: 16px; width: 16px; height: 16px; }
+.pxd-template-actions .button.disabled { pointer-events: auto; cursor: not-allowed; }
+.pxd-template-msg { display: none; margin: 8px 0 0; padding: 6px 10px; border-left: 3px solid #2271b1; background: #f0f6fc; }
+.pxd-template-msg.is-error { border-left-color: #d63638; background: #fcf0f1; }
+
+/* Live preview */
+.pxd-preview { margin-top: 20px; border: 1px solid #c3c4c7; background: #fff; padding: 12px 14px 12px; }
+.pxd-preview-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pxd-preview-title { font-size: 14px; margin-right: auto; }
+.pxd-preview-devices { display: inline-flex; gap: 4px; }
+.pxd-preview-devices .button, .pxd-preview-reload { display: inline-flex !important; align-items: center; gap: 4px; }
+.pxd-preview-devices .button.is-active { background: #2271b1; border-color: #2271b1; color: #fff; }
+.pxd-preview-devices .dashicons, .pxd-preview-reload .dashicons { font-size: 16px; width: 16px; height: 16px; }
+.pxd-preview-meta { margin: 8px 0 10px; color: #50575e; font-size: 12px; min-height: 18px; }
+.pxd-preview-stage { position: relative; background: repeating-conic-gradient(#f6f7f7 0% 25%, #eef0f1 0% 50%) 50% / 20px 20px; border-radius: 4px; display: flex; justify-content: center; overflow: hidden; }
+.pxd-preview-viewport { position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.15), 0 0 0 1px rgba(0,0,0,.06); background: #fff; }
+.pxd-preview-viewport iframe { display: block; border: 0; transform-origin: 0 0; background: #fff; }
+.pxd-preview-loading { position: absolute; top: 8px; right: 8px; opacity: 0; transition: opacity .15s; pointer-events: none; }
+.pxd-preview-loading.is-on { opacity: 1; }
+.pxd-preview-loading .spinner { float: none; margin: 0; }
+.pxd-preview > .description { margin: 8px 0 0; }
+
+/* ---- Side-by-side: settings left, sticky preview right ------------------
+   Based on the box's own width (container query), not the window: the
+   WordPress main column is much narrower than the screen. */
+@container (min-width: 1000px) {
+	.pxd-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 42%); gap: 18px; align-items: start; }
+	.pxd-side { position: sticky; top: 46px; }
+	.pxd-preview { margin-top: 0; }
+	.popupxd-tab-panel .form-table th { width: 160px; }
+}
+@container (min-width: 1000px) and (max-width: 1180px) {
+	.pxd-dev-label { display: none; }
+}
+
+/* Narrow boxes: stack table cells like WordPress does on mobile. */
+@container (max-width: 640px) {
+	.popupxd-tab-panel .form-table th,
+	.popupxd-tab-panel .form-table td { display: block; width: auto; padding-left: 0; padding-right: 0; }
+	.popupxd-tab-panel .form-table th { padding-bottom: 0; }
+}
+
+/* ---- Popup list table ------------------------------------------------- */
+.column-pxd_status { width: 90px; }
+.column-pxd_summary { width: 32%; }
+.column-pxd_shortcode { width: 190px; }
+.column-pxd_shortcode code { white-space: nowrap; font-size: 12px; }
+.pxd-list-switch { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: 0; background: none; padding: 0; font-size: 12px; color: #00a32a; }
+.pxd-list-switch .pxd-switch-ui { width: 32px; height: 18px; }
+.pxd-list-switch .pxd-switch-ui::after { width: 14px; height: 14px; }
+.pxd-list-switch[aria-checked="true"] .pxd-switch-ui { background: #00a32a; }
+.pxd-list-switch[aria-checked="true"] .pxd-switch-ui::after { transform: translateX(14px); }
+.pxd-list-switch[aria-checked="false"] { color: #646970; }
+.pxd-list-switch:disabled { opacity: .5; cursor: wait; }
+.pxd-list-switch:focus-visible .pxd-switch-ui { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2271b1; }
+tr.pxd-is-off .row-title { color: #8c8f94; }
+.pxd-list-summary { color: #50575e; }

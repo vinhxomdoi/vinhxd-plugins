@@ -1,0 +1,21 @@
+.xd-cs-body {
+    text-align: center;
+    padding: 150px 20px;
+    background: #f9f9f9;
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.xd-cs-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.xd-cs-container h1 {
+    color: #e31b23;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}

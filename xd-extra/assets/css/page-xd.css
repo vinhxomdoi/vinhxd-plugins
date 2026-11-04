@@ -1,0 +1,33 @@
+/* XD Extra – template "Page XD" */
+.custom-page-header {
+    background: var(--xd-page-bg) center / cover no-repeat;
+    padding: 50px 20px;
+    text-align: center;
+    position: relative;
+}
+.custom-page-header.no-bg { background: linear-gradient(135deg, var(--xd-secondary, #0f6e56), var(--xd-primary, #1d9e75)); }
+.custom-page-header::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, .4); }
+.custom-page-title {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    font-size: 38px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .5);
+}
+.custom-page-container {
+    max-width: 1240px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .08);
+    padding: 40px;
+    box-sizing: border-box;
+}
+@media (max-width: 768px) {
+    .custom-page-container { margin: 20px 15px; padding: 20px; }
+    .custom-page-title { font-size: 28px; }
+    .custom-page-header { padding: 80px 20px; }
+}
