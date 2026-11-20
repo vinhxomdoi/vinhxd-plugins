@@ -10,5 +10,6 @@ Bộ plugin và theme WordPress của [Vĩnh XD](https://vinhxd.com).
 | `xd-extra/` | XD Extra | 3.3.0 |
 | `xd-mega-menu/` | XD Mega Menu | 3.3 |
 | `theme-xd/` | Theme XD | v15 |
+| `vinhxd-connector/` | VinhXD Connector | 1.3.0 |
 
 Cài đặt: nén thư mục tương ứng thành `.zip` rồi tải lên WordPress (Plugins → Add New → Upload, hoặc Appearance → Themes với theme).
