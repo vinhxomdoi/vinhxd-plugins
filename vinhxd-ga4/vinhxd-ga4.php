@@ -2,8 +2,8 @@
 /**
  * Plugin Name: XD Analytics
  * Plugin URI: https://vinhxd.com/plugin
- * Description: Dashboard xem báo cáo Google Analytics (Top trang, Nguồn traffic, Link ra ngoài), widget wp-admin, theo dõi link lỗi 404, shortcode hiển thị lượt xem. Theo dõi chuyên sâu vào CPT. Thiết lập và theo dõi chuyển đổi (click/submit)
- * Version: 1.14.1
+ * Description: Dashboard xem báo cáo Google Analytics (Top trang, Nguồn traffic, Link ra ngoài), widget wp-admin, theo dõi link lỗi 404, shortcode hiển thị lượt xem. Theo dõi chuyên sâu vào CPT. Thiết lập và theo dõi chuyển đổi (click/submit). Theo dõi traffic từ AI (ChatGPT, Gemini, Perplexity, Claude, Copilot, DeepSeek, Grok...) và bot AI crawl
+ * Version: 1.15.0
  * Author: Vĩnh XD
  * Author URI: https://vinhxd.com
  * Text Domain: vinhxd-ga4
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'VINHXD_GA4_VERSION', '1.14.1' );
+define( 'VINHXD_GA4_VERSION', '1.15.0' );
 define( 'VINHXD_GA4_PATH', plugin_dir_path( __FILE__ ) );
 define( 'VINHXD_GA4_URL', plugin_dir_url( __FILE__ ) );
 
@@ -28,6 +28,7 @@ require_once VINHXD_GA4_PATH . 'includes/class-shortcodes.php';
 require_once VINHXD_GA4_PATH . 'includes/class-post-metabox.php';
 require_once VINHXD_GA4_PATH . 'includes/class-ads-client.php';
 require_once VINHXD_GA4_PATH . 'includes/class-ads-settings.php';
+require_once VINHXD_GA4_PATH . 'includes/class-ai-traffic.php'; // Traffic AI (1.15.0) – xem README.md
 
 /**
  * Đăng ký menu admin
@@ -97,6 +98,7 @@ function vinhxd_ga4_activate() {
 	add_option( 'vinhxd_ga4_conversions', array() );
 	add_option( 'vinhxd_ga4_view_post_types', array( 'post', 'page' ) );
 	add_option( 'vinhxd_ga4_exclude_bots', '1' );
+	Vinhxd_AI_Traffic::install(); // tạo bảng Traffic AI
 }
 register_activation_hook( __FILE__, 'vinhxd_ga4_activate' );
 
@@ -104,6 +106,7 @@ function vinhxd_ga4_deactivate() {
 	wp_clear_scheduled_hook( 'vinhxd_ga4_sync_views_event' );
 	wp_clear_scheduled_hook( Vinhxd_GA4_Internal_Tracking::GOOGLE_RANGES_CRON );
 	wp_clear_scheduled_hook( Vinhxd_GA4_Internal_Tracking::GOOGLE_RANGES_CRON . '_once' );
+	Vinhxd_AI_Traffic::deactivate();
 }
 register_deactivation_hook( __FILE__, 'vinhxd_ga4_deactivate' );
 
