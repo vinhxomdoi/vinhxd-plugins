@@ -1,5 +1,11 @@
 # XD Extra – Changelog
 
+## 3.4.0
+**Thay đổi**
+- Tách toàn bộ module chống clone, chặn backup/file manager, khóa sửa file, chặn bot tải web, khóa tên miền, bảo vệ RSS và `includes/guard-core.php` khỏi XD Extra (chuyển sang quản lý tập trung tại Vĩnh XD Connector từ v1.4.0).
+- Trang **XD Hide** giữ gọn nhẹ 3 chức năng giao diện quản trị: Ẩn Plugin, Ẩn Menu Admin, CSS Admin và tab Shortcodes.
+- Không xóa các `wp_options` bảo mật cũ trong DB để bảo toàn cấu hình khi nâng cấp.
+
 ## 3.3.0
 **Mới – module "CSS tùy chỉnh"** (`includes/post-css.php`, bật/tắt ở XD Extra → Cài đặt, mặc định bật)
 - Meta box "CSS riêng cho trang này" cho mọi post type public (trừ attachment, elementor_library); filter `xd_post_css_post_types`. Lưu meta `_single_add_custom_css` (cùng key WP Add Custom CSS). Nonce, `edit_post`, bỏ qua autosave/revision, giữ dấu `\`, ô trống thì xoá meta.

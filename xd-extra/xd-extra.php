@@ -3,7 +3,7 @@
  * Plugin Name: XD Extra
  * Plugin URI: https://vinhxd.com/plugin
  * Description: Bộ công cụ bổ sung cho website được thiết kế bởi Vĩnh XD.
- * Version: 3.3.0
+ * Version: 3.4.0
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author: Vĩnh XD
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'XD_VERSION',    '3.3.0' );
+define( 'XD_VERSION',    '3.4.0' );
 define( 'XD_PLUGIN_FILE', __FILE__ );
 define( 'XD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'XD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -30,7 +30,7 @@ foreach ( [
 	'templates',        // Template Single/Archive bài viết, Page XD
 	'images',           // Kích thước ảnh, nén & đổi WebP
 	'inject',           // Chèn mã nhúng (GTM, Pixel...)
-	'security',         // XD Hide: ẩn plugin/menu, chống clone/backup
+	'security',         // XD Hide: ẩn plugin, ẩn menu admin, CSS admin
 ] as $xd_module ) {
 	require_once XD_INCLUDES . $xd_module . '.php';
 }
@@ -56,13 +56,9 @@ add_action( 'admin_init', function () {
 	delete_transient( 'xd_update_xd-extra' );
 	delete_option( 'xd_login_block_log' );
 
-	// Chống clone đã gom về trang XD Hide; đồng bộ lại mu-plugin bảo vệ nếu đang bật.
-	if ( function_exists( 'xd_guard_sync_mu' ) ) xd_guard_sync_mu();
-
 	update_option( 'xd_extra_version', XD_VERSION, false );
 } );
 
 register_deactivation_hook( __FILE__, function () {
-	// Mu-plugin bảo vệ vẫn giữ lại để chống clone ngay cả khi XD Extra bị tắt.
 	delete_transient( 'xd_update_xd-extra' );
 } );

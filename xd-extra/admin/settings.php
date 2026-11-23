@@ -106,7 +106,7 @@ function xd_extra_settings_page() {
 							<?php xd_pcss_status_line(); ?>
 						</td></tr>
 				</table>
-				<p class="description">Chống copy, chặn backup/clone, khoá tên miền… ở trang <a href="<?php echo esc_url( admin_url( 'admin.php?page=xd-hide' ) ); ?>">XD Hide</a>.</p>
+				<p class="description">Ẩn plugin, ẩn menu admin, CSS admin… ở trang <a href="<?php echo esc_url( admin_url( 'admin.php?page=xd-hide' ) ); ?>">XD Hide</a>.</p>
 			</div>
 
 			<div style="<?php echo esc_attr( $box ); ?>">

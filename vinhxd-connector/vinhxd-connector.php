@@ -3,7 +3,7 @@
  * Plugin Name: VinhXD Connector
  * Plugin URI: https://meg.vinhxd.com
  * Description: Kết nối web với Vĩnh XD, cập nhật giao diện, chức năng và xử lý lỗi.
- * Version: 1.3.0
+ * Version: 1.4.0
  * Author: Vĩnh XD
  * Author URI: https://vinhxd.com
  * Requires PHP: 7.4
@@ -11,9 +11,12 @@
 if (!defined('ABSPATH')) exit;
 
 define('VXD_MEG_URL', 'https://meg.vinhxd.com/api/update.php');
-define('VXD_CONN_VER', '1.3.0');
+define('VXD_CONN_VER', '1.4.0');
 define('VXD_CONN_FILE', __FILE__);
 define('VXD_CONN_URL', plugin_dir_url(__FILE__));
+
+if (file_exists(__DIR__ . '/includes/guard-core.php')) require_once __DIR__ . '/includes/guard-core.php';
+if (file_exists(__DIR__ . '/includes/guard-admin.php')) require_once __DIR__ . '/includes/guard-admin.php';
 
 final class VXD_Connector {
     private static $inst; private $key; private $domain; private $products = null; private $features = null;
@@ -22,6 +25,7 @@ final class VXD_Connector {
         $this->key = (string)get_option('vxd_meg_key', '');
         $this->domain = preg_replace('~^www\.~', '', strtolower((string)parse_url(home_url(), PHP_URL_HOST)));
         add_action('admin_menu', [$this, 'menu']);
+        add_action('admin_menu', [$this, 'maybe_hide_menu'], 999);
         add_action('admin_init', [$this, 'settings']);
         add_action('init', [$this, 'remote_endpoint']);
         add_action('vxd_meg_daily_ping', [$this, 'ping']);
@@ -58,6 +62,9 @@ final class VXD_Connector {
             $feat = $j['features'] ?? [];
             set_transient('vxd_meg_features', is_array($feat) ? $feat : [], 6 * HOUR_IN_SECONDS);
             if (array_key_exists('dash_oto', $feat)) update_option('vxd_meg_dash_oto', (int)$feat['dash_oto']);
+            if (!empty($feat['guard']) && is_array($feat['guard']) && function_exists('vxd_guard_apply_config')) {
+                vxd_guard_apply_config($feat['guard']);
+            }
         }
         return $ok ? $j : null;
     }
@@ -142,11 +149,15 @@ final class VXD_Connector {
             'connector' => VXD_CONN_VER, 'db_mb' => $db,
             'dash_oto' => $this->oto_enabled() ? 1 : 0,
             'content_health' => wp_json_encode($this->content_health(true)),
+            'guard' => function_exists('vxd_guard_status_summary') ? wp_json_encode(vxd_guard_status_summary()) : '{}',
         ]]);
         $j = !is_wp_error($r) ? json_decode(wp_remote_retrieve_body($r), true) : null;
         if (isset($j['features']) && is_array($j['features'])) {
             set_transient('vxd_meg_features', $j['features'], 6 * HOUR_IN_SECONDS);
             if (array_key_exists('dash_oto', $j['features'])) update_option('vxd_meg_dash_oto', (int)$j['features']['dash_oto']);
+            if (!empty($j['features']['guard']) && is_array($j['features']['guard']) && function_exists('vxd_guard_apply_config')) {
+                vxd_guard_apply_config($j['features']['guard']);
+            }
         }
         update_option('vxd_meg_last_ping', current_time('mysql'));
     }
@@ -158,9 +169,24 @@ final class VXD_Connector {
         if (!$this->key) $out(['ok' => false, 'error' => 'Chưa nhập license key'], 403);
         $slug = sanitize_key($_GET['slug'] ?? ''); $ts = (int)($_GET['ts'] ?? 0); $sig = (string)($_GET['sig'] ?? '');
         if (abs(time() - $ts) > 300 || !hash_equals(hash_hmac('sha256', "$slug|$ts", $this->key), $sig)) $out(['ok' => false, 'error' => 'Chữ ký sai'], 403);
-        if ($_GET['vxd_connector'] === 'status') $out(['ok' => true, 'connector' => VXD_CONN_VER, 'wp' => get_bloginfo('version'), 'dash_oto' => $this->oto_enabled() ? 1 : 0]);
+        if ($_GET['vxd_connector'] === 'status') {
+            $out([
+                'ok' => true, 'connector' => VXD_CONN_VER, 'wp' => get_bloginfo('version'),
+                'dash_oto' => $this->oto_enabled() ? 1 : 0,
+                'guard' => function_exists('vxd_guard_status_summary') ? vxd_guard_status_summary() : null,
+            ]);
+        }
+        if ($_GET['vxd_connector'] === 'guard') {
+            if (!function_exists('vxd_guard_apply_config')) $out(['ok' => false, 'error' => 'Module guard chưa nạp'], 500);
+            $raw_body = file_get_contents('php://input');
+            $json_cfg = $raw_body ? json_decode($raw_body, true) : null;
+            $cfg = is_array($json_cfg) ? $json_cfg : (is_array($_POST) && !empty($_POST) ? wp_unslash($_POST) : []);
+            $res = !empty($cfg) ? vxd_guard_apply_config($cfg) : null;
+            $out(['ok' => true, 'applied' => $res, 'guard' => vxd_guard_status_summary()]);
+        }
         if ($_GET['vxd_connector'] !== 'upgrade') $out(['ok' => false, 'error' => 'bad action'], 400);
         set_time_limit(300); delete_transient('vxd_meg_products'); delete_transient('vxd_meg_features'); $this->products = null; $this->features = null;
+        $GLOBALS['vxd_connector_internal_upgrade'] = true;
         add_filter('auto_plugin_update_send_email', '__return_false');
         add_filter('auto_theme_update_send_email', '__return_false');
         require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php'; require_once ABSPATH . 'wp-admin/includes/plugin.php'; require_once ABSPATH . 'wp-admin/includes/file.php'; require_once ABSPATH . 'wp-admin/includes/misc.php';
@@ -269,7 +295,13 @@ final class VXD_Connector {
         $missing = [];
         foreach ((array)get_option('active_plugins', []) as $pf) if (!file_exists(WP_PLUGIN_DIR . '/' . $pf)) $missing[] = dirname($pf) === '.' ? $pf : dirname($pf);
         if ($missing) $issues[] = 'Plugin đang bật nhưng mất file: ' . implode(', ', array_slice($missing, 0, 12)) . (count($missing) > 12 ? '…' : '');
-        $c = ['ok' => !$issues, 'issues' => $issues, 'plugins' => count(get_plugins()), 'time' => current_time('mysql')];
+        $c = [
+            'ok' => !$issues,
+            'issues' => $issues,
+            'plugins' => count(get_plugins()),
+            'exposed_backups' => function_exists('vxd_guard_scan_exposed_backups') ? vxd_guard_scan_exposed_backups() : [],
+            'time' => current_time('mysql'),
+        ];
         update_option('vxd_content_health', $c, false);
         return $c;
     }
@@ -288,12 +320,50 @@ final class VXD_Connector {
     }
 
     public function menu() { add_options_page('Vĩnh XD Connector', 'Vĩnh XD Connector', 'manage_options', 'vxd-connector', [$this, 'page']); }
+    public function maybe_hide_menu() {
+        if (function_exists('xd_guard_hide_connector') && xd_guard_hide_connector()) {
+            remove_submenu_page('options-general.php', 'vxd-connector');
+        }
+    }
     public function settings() {
-        register_setting('vxd_meg', 'vxd_meg_key', ['sanitize_callback' => function ($v) { delete_transient('vxd_meg_products'); delete_transient('vxd_meg_features'); return trim((string)$v); }]);
+        register_setting('vxd_meg', 'vxd_meg_key', ['sanitize_callback' => function ($v) {
+            $old = trim((string)get_option('vxd_meg_key', ''));
+            $unlocked = !function_exists('vxd_guard_is_unlocked') || vxd_guard_is_unlocked();
+            if ($old !== '' && !$unlocked) return $old;
+            delete_transient('vxd_meg_products'); delete_transient('vxd_meg_features');
+            return trim((string)$v);
+        }]);
         register_setting('vxd_meg', 'vxd_meg_auto', ['sanitize_callback' => 'absint']);
         register_setting('vxd_meg', 'vxd_enable_oto_dashboard', ['sanitize_callback' => 'absint']);
     }
     public function page() {
+        $tab = sanitize_key($_GET['tab'] ?? 'meg');
+        if (!in_array($tab, ['meg', 'guard', 'log'], true)) $tab = 'meg';
+        $base = admin_url('options-general.php?page=vxd-connector');
+        $log_cnt = count((array)get_option('xd_guard_log', []));
+        $tabs = [
+            'meg'   => 'Kết nối MEG',
+            'guard' => '🛡️ Chống Clone & Bảo Mật',
+            'log'   => '📋 Nhật ký chặn' . ($log_cnt ? ' (' . $log_cnt . ')' : ''),
+        ];
+        echo '<div class="wrap"><h1>Vĩnh XD Connector <small style="font-size:13px;font-weight:400;color:#64748b">v' . esc_html(VXD_CONN_VER) . '</small></h1>';
+        echo '<nav class="nav-tab-wrapper" style="margin-bottom:18px;">';
+        foreach ($tabs as $k => $label) {
+            echo '<a href="' . esc_url(add_query_arg('tab', $k, $base)) . '" class="nav-tab' . ($tab === $k ? ' nav-tab-active' : '') . '">' . esc_html($label) . '</a>';
+        }
+        echo '</nav>';
+
+        if ($tab === 'guard' && function_exists('vxd_guard_render_security_tab')) {
+            vxd_guard_render_security_tab();
+            echo '</div>';
+            return;
+        }
+        if ($tab === 'log' && function_exists('vxd_guard_render_log_tab')) {
+            vxd_guard_render_log_tab();
+            echo '</div>';
+            return;
+        }
+
         if (isset($_GET['vxd_ping']) && check_admin_referer('vxd_ping')) {
             delete_transient('vxd_meg_products'); delete_transient('vxd_meg_features');
             $this->products = null; $this->features = null; $this->ping();
@@ -302,11 +372,20 @@ final class VXD_Connector {
         $prods = $this->key ? $this->products() : []; $err = get_option('vxd_meg_last_error', '');
         $meg_oto = (int)get_option('vxd_meg_dash_oto', 0);
         $local_oto = (int)get_option('vxd_enable_oto_dashboard', 0);
+        $unlocked = !function_exists('vxd_guard_is_unlocked') || vxd_guard_is_unlocked();
+        $masked_key = $this->key !== '' ? (substr($this->key, 0, 4) . str_repeat('•', max(8, strlen($this->key) - 8)) . substr($this->key, -4)) : '';
         ?>
-        <div class="wrap"><h1>Vĩnh XD Connector <small style="font-size:13px;font-weight:400;color:#64748b">v<?php echo esc_html(VXD_CONN_VER); ?></small></h1>
         <form method="post" action="options.php"><?php settings_fields('vxd_meg'); ?>
         <table class="form-table">
-        <tr><th>License key</th><td><input type="text" name="vxd_meg_key" value="<?php echo esc_attr($this->key); ?>" class="regular-text code" placeholder="dán key từ meg.vinhxd.com"><p class="description">Domain: <code><?php echo esc_html($this->domain); ?></code> — key phải được cấp cho đúng domain này.</p></td></tr>
+        <tr><th>License key</th><td>
+            <?php if ($this->key !== '' && !$unlocked): ?>
+                <input type="text" value="<?php echo esc_attr($masked_key); ?>" class="regular-text code" disabled>
+                <p class="description">License key đang được che để bảo vệ. Mở khóa ở tab <a href="<?php echo esc_url(add_query_arg('tab', 'guard', $base)); ?>">Chống Clone &amp; Bảo Mật</a> để đổi key.</p>
+            <?php else: ?>
+                <input type="text" name="vxd_meg_key" value="<?php echo esc_attr($this->key); ?>" class="regular-text code" placeholder="dán key từ meg.vinhxd.com">
+                <p class="description">Domain: <code><?php echo esc_html($this->domain); ?></code> — key phải được cấp cho đúng domain này.</p>
+            <?php endif; ?>
+        </td></tr>
         <tr><th>Tự động cập nhật</th><td><label><input type="checkbox" name="vxd_meg_auto" value="1" <?php checked(get_option('vxd_meg_auto', 1), 1); ?>> Tự cập nhật plugin/theme của VinhXD khi có bản mới</label></td></tr>
         <tr><th>Dashboard Oto</th><td>
             <label><input type="checkbox" name="vxd_enable_oto_dashboard" value="1" <?php checked($local_oto, 1); ?>> Bật dashboard Oto trên site này (ghi đè widget mặc định)</label>
@@ -627,5 +706,8 @@ body.index-php, body.index-php #wpwrap, body.index-php #wpcontent, body.index-ph
         <?php
     }
 }
+register_activation_hook(__FILE__, function () {
+    if (function_exists('vxd_guard_sync_mu')) vxd_guard_sync_mu();
+});
 register_deactivation_hook(__FILE__, function () { wp_clear_scheduled_hook('vxd_meg_daily_ping'); });
 VXD_Connector::init();
