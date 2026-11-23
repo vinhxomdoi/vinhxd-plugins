@@ -1,5 +1,16 @@
 # XD Analytics – Changelog
 
+## 1.15.0 (Traffic AI)
+
+### Mới
+- Trang **XD Analytics → Traffic AI**: đếm lượt khách vào web từ ChatGPT, Gemini, Perplexity, Claude, Copilot, DeepSeek, Grok, Meta AI, Mistral Le Chat, You.com, Phind, Poe, Qwen, Kimi, HuggingChat, Pi, Duck.ai.
+- Nhận diện qua referrer + `utm_source` (ChatGPT/Perplexity tự gắn `utm_source=chatgpt.com`...). Danh sách nguồn sửa được ngay trong wp-admin.
+- Ghi bằng JS beacon (chạy cả khi bật cache LiteSpeed) + fallback phía server, gộp trùng 30 phút. Không lưu IP (chỉ hash theo ngày).
+- Thống kê: tổng lượt, khách ước tính, theo nguồn, biểu đồ theo ngày (Chart.js có sẵn), trang đích top, 50 lượt gần nhất, lọc theo ngày, tải CSV.
+- Ghi lượt bot AI crawl (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot, Bytespider, CCBot, Meta-ExternalAgent, Amazonbot...) – chỉ request không qua cache.
+- Bảng `{prefix}vinhxd_ai_visits`, `{prefix}vinhxd_ai_crawls`; tự xoá dữ liệu cũ (mặc định 180 ngày).
+- README.md hướng dẫn đọc số liệu & giới hạn (Google AI Overviews không tách được khỏi Organic).
+
 ## 1.14.1 (hotfix bảo mật & ổn định)
 
 ### Bảo mật
