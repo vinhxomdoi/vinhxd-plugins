@@ -1,5 +1,9 @@
 # XD Extra – Changelog
 
+## 3.4.1
+**Mới**
+- Cho phép tick ẩn luôn menu **XD Hide** (`xd-hide`) trong danh sách *2. Ẩn Menu Admin* (sau khi ẩn vẫn truy cập trực tiếp bằng URL `wp-admin/admin.php?page=xd-hide`).
+
 ## 3.4.0
 **Thay đổi**
 - Tách toàn bộ module chống clone, chặn backup/file manager, khóa sửa file, chặn bot tải web, khóa tên miền, bảo vệ RSS và `includes/guard-core.php` khỏi XD Extra (chuyển sang quản lý tập trung tại Vĩnh XD Connector từ v1.4.0).

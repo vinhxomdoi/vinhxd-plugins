@@ -3,7 +3,7 @@
  * Plugin Name: XD Extra
  * Plugin URI: https://vinhxd.com/plugin
  * Description: Bộ công cụ bổ sung cho website được thiết kế bởi Vĩnh XD.
- * Version: 3.4.0
+ * Version: 3.4.1
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author: Vĩnh XD
@@ -13,7 +13,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'XD_VERSION',    '3.4.0' );
+define( 'XD_VERSION',    '3.4.1' );
 define( 'XD_PLUGIN_FILE', __FILE__ );
 define( 'XD_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'XD_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

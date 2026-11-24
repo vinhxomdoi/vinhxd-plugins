@@ -16,7 +16,7 @@ add_action( 'admin_menu', function () {
 add_action( 'admin_menu', function () {
 	if ( isset( $_GET['page'] ) && $_GET['page'] === 'xd-hide' ) return;
 	foreach ( (array) get_option( 'xd_hidden_menus', [] ) as $slug ) {
-		if ( $slug !== 'xd-hide' ) remove_menu_page( $slug );
+		remove_menu_page( $slug );
 	}
 }, 999 );
 
@@ -87,8 +87,12 @@ function xd_security_settings_page() {
 			<div style="<?php echo esc_attr( $box ); ?>">
 				<h2 style="margin-top:0;">2. Ẩn Menu Admin</h2>
 				<table class="wp-list-table widefat fixed striped"><thead><tr><th style="width:40px;">Ẩn</th><th>Tên</th><th>Slug</th></tr></thead><tbody>
-				<?php foreach ( $all_menus as $m ) : if ( $m['slug'] === 'xd-hide' ) continue; ?>
-					<tr><td><input type="checkbox" name="hidden_menus[]" value="<?php echo esc_attr( $m['slug'] ); ?>"<?php checked( in_array( $m['slug'], $hidden_menus, true ) ); ?>></td><td><?php echo esc_html( $m['label'] ); ?></td><td><code style="font-size:11px;"><?php echo esc_html( $m['slug'] ); ?></code></td></tr>
+				<?php foreach ( $all_menus as $m ) : ?>
+					<tr>
+						<td><input type="checkbox" name="hidden_menus[]" value="<?php echo esc_attr( $m['slug'] ); ?>"<?php checked( in_array( $m['slug'], $hidden_menus, true ) ); ?>></td>
+						<td><?php echo esc_html( $m['label'] ); ?><?php if ( $m['slug'] === 'xd-hide' ) : ?> <span style="color:#d63638;font-size:11px;">(ẩn xong truy cập trực tiếp qua <code>admin.php?page=xd-hide</code>)</span><?php endif; ?></td>
+						<td><code style="font-size:11px;"><?php echo esc_html( $m['slug'] ); ?></code></td>
+					</tr>
 				<?php endforeach; ?>
 				</tbody></table>
 			</div>
