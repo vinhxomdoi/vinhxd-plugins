@@ -44,11 +44,14 @@ function vxd_guard_sync_mu() {
 }
 
 // Giữ tương thích ngược cho script/quy trình gọi xd_guard_sync_mu().
-if ( ! function_exists( 'xd_guard_sync_mu' ) ) {
-	function xd_guard_sync_mu() {
-		return vxd_guard_sync_mu();
+// Trì hoãn sang plugins_loaded để tránh Fatal Error "Cannot redeclare xd_guard_sync_mu()" trên web còn chạy XD Extra <= 3.2.0.
+add_action( 'plugins_loaded', function () {
+	if ( ! function_exists( 'xd_guard_sync_mu' ) ) {
+		function xd_guard_sync_mu() {
+			return vxd_guard_sync_mu();
+		}
 	}
-}
+}, 20 );
 
 // Tự đồng bộ mu-plugin khi nâng cấp hoặc khi bản mu-plugin trên đĩa cũ hơn VXD_GUARD_CORE_VERSION.
 add_action( 'admin_init', function () {
