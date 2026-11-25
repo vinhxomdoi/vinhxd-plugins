@@ -3,7 +3,7 @@
  * Plugin Name: VinhXD Connector
  * Plugin URI: https://meg.vinhxd.com
  * Description: Kết nối web với Vĩnh XD, cập nhật giao diện, chức năng và xử lý lỗi.
- * Version: 1.4.0
+ * Version: 1.4.2
  * Author: Vĩnh XD
  * Author URI: https://vinhxd.com
  * Requires PHP: 7.4
@@ -11,7 +11,7 @@
 if (!defined('ABSPATH')) exit;
 
 define('VXD_MEG_URL', 'https://meg.vinhxd.com/api/update.php');
-define('VXD_CONN_VER', '1.4.0');
+define('VXD_CONN_VER', '1.4.2');
 define('VXD_CONN_FILE', __FILE__);
 define('VXD_CONN_URL', plugin_dir_url(__FILE__));
 
@@ -34,10 +34,11 @@ final class VXD_Connector {
             add_filter('pre_set_site_transient_update_plugins', [$this, 'check_plugins']);
             add_filter('pre_set_site_transient_update_themes', [$this, 'check_themes']);
             add_filter('plugins_api', [$this, 'plugin_info'], 20, 3);
-            add_filter('auto_update_plugin', [$this, 'auto_update'], 10, 2);
-            add_filter('auto_update_theme', [$this, 'auto_update'], 10, 2);
             add_filter('http_request_host_is_external', [$this, 'trust_vxd_host'], 10, 2);
         }
+        // Tắt tự động cập nhật cho toàn bộ plugin WordPress — chỉ cho cập nhật thủ công
+        add_filter('auto_update_plugin', '__return_false', 9999);
+        add_filter('plugins_auto_update_enabled', '__return_false', 9999);
         add_action('admin_init', [$this, 'maybe_sync_features'], 5);
         add_action('admin_init', [$this, 'maybe_check_health'], 6);
         add_action('admin_notices', [$this, 'health_notice']);
@@ -122,10 +123,7 @@ final class VXD_Connector {
         return $res;
     }
     public function auto_update($update, $item) {
-        if (!get_option('vxd_meg_auto', 1)) return $update;
-        $slug = is_object($item) ? ($item->slug ?? ($item->theme ?? '')) : ($item['theme'] ?? '');
-        foreach ($this->products() as $p) if ($p['slug'] === $slug) return true;
-        return $update;
+        return false;
     }
 
     public function ping() {
@@ -333,7 +331,6 @@ final class VXD_Connector {
             delete_transient('vxd_meg_products'); delete_transient('vxd_meg_features');
             return trim((string)$v);
         }]);
-        register_setting('vxd_meg', 'vxd_meg_auto', ['sanitize_callback' => 'absint']);
         register_setting('vxd_meg', 'vxd_enable_oto_dashboard', ['sanitize_callback' => 'absint']);
     }
     public function page() {
@@ -386,7 +383,7 @@ final class VXD_Connector {
                 <p class="description">Domain: <code><?php echo esc_html($this->domain); ?></code> — key phải được cấp cho đúng domain này.</p>
             <?php endif; ?>
         </td></tr>
-        <tr><th>Tự động cập nhật</th><td><label><input type="checkbox" name="vxd_meg_auto" value="1" <?php checked(get_option('vxd_meg_auto', 1), 1); ?>> Tự cập nhật plugin/theme của VinhXD khi có bản mới</label></td></tr>
+        <tr><th>Cập nhật plugin</th><td><p class="description">Đã tắt tự động cập nhật cho toàn bộ plugin WordPress — chỉ cho phép cập nhật thủ công.</p></td></tr>
         <tr><th>Dashboard Oto</th><td>
             <label><input type="checkbox" name="vxd_enable_oto_dashboard" value="1" <?php checked($local_oto, 1); ?>> Bật dashboard Oto trên site này (ghi đè widget mặc định)</label>
             <p class="description">
